@@ -1,7 +1,7 @@
 import React from "react";
 import NewTaskForm from "./ToDo/NewTaskForm";
 import Footer from "./ToDo/Footer";
-import TaskList from "./ToDo/TaskList1";
+import TaskList from "./ToDo/TaskList";
 import {Component} from "react";
 
 export default class App extends Component {
