@@ -3,19 +3,6 @@ import {Component} from "react";
 
 export default class Task extends Component {
 
-    // state = {
-    //     done: false
-    // }
-    // onInput = () => {
-    //     this.setState(({done}) => {
-    //        return {
-    //            done: !done
-    //        };
-    //     });
-    // };
-
-
-
 render() {
    const {todo, onDeleted, onToggleDone, done, editItem} = this.props;
     let classes = '';
