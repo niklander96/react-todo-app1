@@ -23,8 +23,7 @@ render() {
                     <span className='created'>created 5 minutes ago</span>
                 </label>
                 <button className='icon icon-edit'
-
-
+                        onClick={editItem}
                 ></button>
                 <button className='icon icon-destroy'
                         onClick={onDeleted}
@@ -32,8 +31,7 @@ render() {
             </div>
             <input type="text"
                    className="edit"
-                   onClick={editItem}
-                   />
+            />
         </li>
     )
 }
