@@ -3,7 +3,7 @@ import './Footer.css'
 import {Component} from "react";
 
 export default class Footer extends Component {
-// ({toDo, done})
+//
 render() {
     const { toDo } = this.props;
     return (

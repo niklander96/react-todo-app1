@@ -1,12 +1,12 @@
 import React from "react";
 import NewTaskForm from "./ToDo/NewTaskForm";
 import Footer from "./ToDo/Footer";
-import TaskList from "./ToDo/TaskList";
+import TaskList from "./ToDo/TaskList1";
 import {Component} from "react";
 
 export default class App extends Component {
 
-    maxId = 4;
+    maxId = 1;
 
     state = {
         todos: [
@@ -39,12 +39,27 @@ export default class App extends Component {
         })
     }
 
-    // editItem = (id) => {
-    //     this.setState(({todos}) => {
-    //     const idx = todos.findIndex(el => el.id === id);
-    //         console.log(idx)
-    //     })
-    // }
+    onToggleDone = (id) => {
+        this.setState(({todos}) => {
+            const idx = todos.findIndex(el => el.id === id);
+            const oldItem = todos[idx];
+            const newItem = {...oldItem, done: !oldItem.done};
+            const newTodos = [
+                ...todos.slice(0, idx),
+                newItem,
+                ...todos.slice(idx + 1)
+            ];
+            return {
+                todos: newTodos
+            };
+        });
+    };
+    editItem = (text) => {
+        this.setState(({todos}) => {
+        return todos.map(el => el.title === text);
+
+        })
+    }
 
     addItem = (text) => {
         const newItem = this.createTodoItem(text);
@@ -55,36 +70,13 @@ export default class App extends Component {
             ];
             return {
                 todos: newTodos
-            }
-
-        })
-    }
-
-    onToggleDone = (id) => {
-
-        this.setState(({todos}) => {
-            const idx = todos.findIndex(el => el.id === id);
-
-            const oldItem = todos[idx];
-            const newItem = {...oldItem, done: !oldItem.done};
-            const newTodos = [
-                ...todos.slice(0, idx),
-                newItem,
-                ...todos.slice(idx + 1)
-            ];
-
-            return {
-                todos: newTodos
-
-            }
-
-        })
-    }
+            };
+        });
+    };
 
     render() {
         let doneCount = this.state.todos.filter((el) => el.done).length;
         let todoCount = this.state.todos.length - doneCount;
-        console.log(doneCount)
         return (
             <section className='todoapp'>
                 <NewTaskForm onCreate={this.addItem}/>
@@ -93,8 +85,10 @@ export default class App extends Component {
                         todos={this.state.todos}
                         onDeleted={this.deleteItem}
                         onToggleDone={this.onToggleDone}
+                        addItem={this.addItem}
+                        editItem={this.editItem}
                     />
-                    <Footer toDo={todoCount} />
+                    <Footer toDo={todoCount}/>
 
                 </section>
             </section>

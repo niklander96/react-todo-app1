@@ -3,22 +3,21 @@ import {Component} from "react";
 
 export default class Task extends Component {
 
-    state = {
-        done: false
-    }
-    onInput = () => {
-        this.setState(({done}) => {
-           return {
-               done: !done
-           };
-        });
-    };
+    // state = {
+    //     done: false
+    // }
+    // onInput = () => {
+    //     this.setState(({done}) => {
+    //        return {
+    //            done: !done
+    //        };
+    //     });
+    // };
 
 
 
 render() {
-   const {todo, onDeleted, onToggleDone} = this.props;
-    const { done } = this.state;
+   const {todo, onDeleted, onToggleDone, done, editItem} = this.props;
     let classes = '';
     if (done) {
         classes += ' completed';
@@ -30,18 +29,14 @@ render() {
             <div className='view'>
                 <input type="checkbox"
                        className='toggle'
-                       onChange={this.onInput}
-
+                       onChange={onToggleDone}
                 />
                 <label>
-                        <span className='description'
-                              onClick={onToggleDone}
-
-                        >{todo.title}</span>
+                    <span className='description'>{todo.title}</span>
                     <span className='created'>created 5 minutes ago</span>
                 </label>
                 <button className='icon icon-edit'
-                        // onClick={onCreate}
+
 
                 ></button>
                 <button className='icon icon-destroy'
@@ -50,6 +45,7 @@ render() {
             </div>
             <input type="text"
                    className="edit"
+                   onClick={editItem}
                    />
         </li>
     )
