@@ -1,5 +1,5 @@
 import {Component} from "react";
-import "../css/TaskFilter.css"
+import "./TaskFilter.css"
 
 
 export default class TasksFilter extends Component {
@@ -13,11 +13,13 @@ export default class TasksFilter extends Component {
     }
 
     render() {
+
         return (
             <ul className="filters">
                 <li>
-                    <button
-                        onClick={(e) => this.filterTasks(e, 'all')}>All</button>
+                    <button className="selected"
+                            onClick={(e) => this.filterTasks(e, 'all')}
+                    >All</button>
                 </li>
                 <li>
                     <button onClick={(e) => this.filterTasks(e, 'active')}>Active</button>

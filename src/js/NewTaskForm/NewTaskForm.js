@@ -1,6 +1,6 @@
 import {Component} from "react";
 import PropTypes from "prop-types";
-import "../css/NewTaskForm.css"
+import "./NewTaskForm.css"
 
 export default class NewTaskForm extends Component {
 

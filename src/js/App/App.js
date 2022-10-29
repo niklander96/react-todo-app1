@@ -1,7 +1,7 @@
 import React from "react";
-import NewTaskForm from "./js/NewTaskForm";
-import Footer from "./js/Footer";
-import TaskList from "./js/TaskList";
+import NewTaskForm from "../NewTaskForm";
+import Footer from "../Footer";
+import TaskList from "../TaskList";
 import {Component} from "react";
 import "./App.css"
 
@@ -10,7 +10,8 @@ export default class App extends Component {
     maxId = 0;
 
     state = {
-        todos: []
+        todos: [this.createTodoItem('Create first task')],
+        renderStatus: 'all'
     }
 
     createTodoItem(text) {
@@ -59,7 +60,6 @@ export default class App extends Component {
                 if (newEl.id === id) {
                     newEl.isEditing = false;
                     newEl.title = title;
-                    console.log('ddadw', id)
                 }
                 return newEl;
             })
@@ -80,10 +80,36 @@ export default class App extends Component {
         });
     };
 
-    onChangeRenderStatus = () => {
+    onChangeStatus = (id, statusFlag) => {
+        this.setState(({ todos }) => ({
+           todos: todos.map((el) => {
+               const newEl = { ...el}
+               if (newEl.id === id) newEl[statusFlag] = !el[statusFlag];
+               return newEl
+           })
 
+        }))
     }
 
+    onChangeRenderStatus = (status) => {
+        this.setState({
+            renderStatus: status,
+        })
+    }
+
+    clearCompleted = () => {
+        this.setState(({todos}) => ({
+            todos: todos.filter((el) => !el.done)
+        }))
+    }
+
+    // onActive = () => {
+    //     this.setState(({ todos }) => ({
+    //         todos: todos.filter((el) => ({
+    //             el.done: false
+    //         })
+    //         }))
+    // }
 
     render() {
         let doneCount = this.state.todos.filter((el) => el.done).length;
@@ -99,9 +125,16 @@ export default class App extends Component {
                         onToggleDone={this.onToggleDone}
                         addItem={this.addItem}
                         editItem={this.editItem}
-                    />
-                    <Footer toDo={todoCount}/>
+                        onChangeStatus={this.onChangeStatus}
 
+                    />
+                    <Footer
+                        toDo={todoCount}
+                        todos={this.state.todos}
+                        clearCompleted={this.clearCompleted}
+                        onChangeRenderStatus={this.onChangeRenderStatus}
+                        onActive={this.onActive}
+                    />
                 </section>
             </section>
         )

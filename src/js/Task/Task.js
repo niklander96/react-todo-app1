@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import {Component} from "react";
 import {formatDistanceToNow} from "date-fns";
 
+
 export default class Task extends Component {
 
     state = {
@@ -9,6 +10,7 @@ export default class Task extends Component {
         dateCreate: new Date(),
         date: 'less than 5 seconds ago',
     }
+
     onSubmit = (e) => {
         e.preventDefault()
         this.props.addItem(this.state.title);
@@ -16,11 +18,13 @@ export default class Task extends Component {
             title: ''
         })
     }
+
     onTextChange = (e) => {
         this.setState({
             title: e.target.value
         })
     }
+
     timeLeft = () => {
         this.setState(({dateCreate}) => ({
             dateCreate,
