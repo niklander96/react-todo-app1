@@ -1,8 +1,9 @@
 import React from "react";
-import NewTaskForm from "./ToDo/NewTaskForm";
-import Footer from "./ToDo/Footer";
-import TaskList from "./ToDo/TaskList";
+import NewTaskForm from "./js/NewTaskForm";
+import Footer from "./js/Footer";
+import TaskList from "./js/TaskList";
 import {Component} from "react";
+import "./App.css"
 
 export default class App extends Component {
 
@@ -15,7 +16,7 @@ export default class App extends Component {
     createTodoItem(text) {
         return {
             title: text,
-            completed: false,
+            edit: false,
             done: false,
             id: this.maxId++
         }
@@ -79,6 +80,11 @@ export default class App extends Component {
         });
     };
 
+    onChangeRenderStatus = () => {
+
+    }
+
+
     render() {
         let doneCount = this.state.todos.filter((el) => el.done).length;
         let todoCount = this.state.todos.length - doneCount;
@@ -86,6 +92,7 @@ export default class App extends Component {
             <section className='todoapp'>
                 <NewTaskForm addItem={this.addItem}/>
                 <section className='main'>
+
                     <TaskList
                         todos={this.state.todos}
                         onDeleted={this.deleteItem}

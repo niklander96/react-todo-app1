@@ -1,10 +1,12 @@
 import Task from "./Task";
 import PropTypes from 'prop-types'
+import "../css/TaskList.css"
 
-const TaskList = ({todos, onDeleted, onToggleDone, editItem}) => {
+const TaskList = ({todos, onDeleted, onToggleDone, editItem, done}) => {
 
     return (
         <ul className='todo-list'>
+
             {todos.map(todo => {
                 return <Task
                     todo={todo}
