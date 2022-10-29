@@ -3,6 +3,21 @@ import {Component} from "react";
 
 export default class Task extends Component {
 
+    state = {
+        title: ''
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        this.props.addItem(this.state.title);
+        this.setState({
+            title: ''
+        })
+    }
+    onTextChange = (e) => {
+        this.setState({
+            title: e.target.value
+        })
+    }
 render() {
    const {todo, onDeleted, onToggleDone, done, editItem} = this.props;
     let classes = '';
@@ -29,9 +44,14 @@ render() {
                         onClick={onDeleted}
                 ></button>
             </div>
-            <input type="text"
-                   className="edit"
-            />
+            <form onSubmit={this.onSubmit}>
+                <input type="text"
+                       className="edit"
+                       onChange={this.onTextChange}
+                       value={this.state.title}
+                />
+            </form>
+
         </li>
     )
 }

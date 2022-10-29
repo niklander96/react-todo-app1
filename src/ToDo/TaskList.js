@@ -12,8 +12,10 @@ const TaskList = ({todos, onDeleted, onToggleDone, editItem}) => {
                     key={todo.id}
                     onDeleted={() => onDeleted(todo.id)}
                     onToggleDone={() => onToggleDone(todo.id)}
-                    editItem={() => editItem(todo.title)}
+                    editItem={() => editItem(todo.id)}
+
                 />
+
             })
             }
         </ul>

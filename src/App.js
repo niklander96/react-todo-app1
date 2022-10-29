@@ -6,14 +6,10 @@ import {Component} from "react";
 
 export default class App extends Component {
 
-    maxId = 1;
+    maxId = 0;
 
     state = {
-        todos: [
-            this.createTodoItem('Complete task'),
-            this.createTodoItem('Editing task'),
-            this.createTodoItem('Active task'),
-        ]
+        todos: []
     }
 
     createTodoItem(text) {
@@ -54,9 +50,18 @@ export default class App extends Component {
             };
         });
     };
-    editItem = (text) => {
+
+    editItem = (id, title) => {
         this.setState(({todos}) => {
-        return todos.map(el => el.title === text);
+            todos.map(el => {
+                const newEl = {...el};
+                if (newEl.id === id) {
+                    newEl.isEditing = false;
+                    newEl.title = title;
+                    console.log('ddadw', id)
+                }
+                return newEl;
+            })
 
         })
     }
@@ -79,7 +84,7 @@ export default class App extends Component {
         let todoCount = this.state.todos.length - doneCount;
         return (
             <section className='todoapp'>
-                <NewTaskForm onCreate={this.addItem}/>
+                <NewTaskForm addItem={this.addItem}/>
                 <section className='main'>
                     <TaskList
                         todos={this.state.todos}

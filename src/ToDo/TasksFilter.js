@@ -7,7 +7,9 @@ export default class TasksFilter extends Component {
         return (
             <ul className="filters">
                 <li>
-                    <button className="selected">All</button>
+                    <button className="selected"
+
+                    >All</button>
                 </li>
                 <li>
                     <button>Active</button>
