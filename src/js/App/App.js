@@ -1,9 +1,6 @@
 import React from "react";
 import NewTaskForm from "../NewTaskForm";
 import Footer from "../Footer";
-import React from "react";
-import NewTaskForm from "../NewTaskForm";
-import Footer from "../Footer";
 import TaskList from "../TaskList";
 import {Component} from "react";
 import "./App.css"
@@ -14,22 +11,23 @@ export default class App extends Component {
 
     state = {
         todos: [this.createTodoItem('Create first task')],
-        renderStatus: 'all'
+        currentItems: [],
+        renderStatus: 'all',
     }
 
     createTodoItem(text) {
         return {
             title: text,
+            id: this.maxId++,
             edit: false,
             done: false,
-            id: this.maxId++
+
         }
     }
 
     deleteItem = (id) => {
         this.setState(({todos}) => {
             const idx = todos.findIndex(el => el.id === id);
-
             const newTodos = [
                 ...todos.slice(0, idx),
                 ...todos.slice(idx + 1)
@@ -83,7 +81,7 @@ export default class App extends Component {
         });
     };
 
-    onChangeStatus = (id, statusFlag) => {
+    ChangeStatus = (id, statusFlag) => {
         this.setState(({ todos }) => ({
             todos: todos.map((el) => {
                 const newEl = { ...el}
@@ -94,7 +92,7 @@ export default class App extends Component {
         }))
     }
 
-    onChangeRenderStatus = (status) => {
+    changeRenderStatus = (status) => {
         this.setState({
             renderStatus: status,
         })
@@ -106,37 +104,32 @@ export default class App extends Component {
         }))
     }
 
-    // onActive = () => {
-    //     this.setState(({ todos }) => ({
-    //         todos: todos.filter((el) => ({
-    //             el.done: false
-    //         })
-    //         }))
-    // }
+
 
     render() {
+        const { todos, renderStatus } = this.state;
         let doneCount = this.state.todos.filter((el) => el.done).length;
         let todoCount = this.state.todos.length - doneCount;
         return (
             <section className='todoapp'>
+                <header className="header">
+                    <h1>todos</h1>
                 <NewTaskForm addItem={this.addItem}/>
+                    </header>
                 <section className='main'>
-
                     <TaskList
-                        todos={this.state.todos}
-                        onDeleted={this.deleteItem}
+                        todos={todos}
+                        deleteItem={this.deleteItem}
                         onToggleDone={this.onToggleDone}
                         addItem={this.addItem}
                         editItem={this.editItem}
-                        onChangeStatus={this.onChangeStatus}
-
+                        renderStatus={renderStatus}
                     />
                     <Footer
                         toDo={todoCount}
-                        todos={this.state.todos}
+                        todos={todos}
                         clearCompleted={this.clearCompleted}
-                        onChangeRenderStatus={this.onChangeRenderStatus}
-                        onActive={this.onActive}
+                        ChangeRenderStatus={this.changeRenderStatus}
                     />
                 </section>
             </section>

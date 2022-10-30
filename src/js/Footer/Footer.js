@@ -5,7 +5,7 @@ import {Component} from "react";
 export default class Footer extends Component {
     render() {
 
-        const {toDo, clearCompleted, onChangeRenderStatus, onActive} = this.props;
+        const {toDo, clearCompleted, onChangeRenderStatus, onActive, done} = this.props;
         return (
             <footer className="footer">
                 <span className="todo-count">{toDo} items left</span>
@@ -13,6 +13,7 @@ export default class Footer extends Component {
                     onChangeRenderStatus={onChangeRenderStatus}
                     onActive={onActive}
                     clearCompleted={clearCompleted}
+                    done={done}
                 />
                 <button className="clear-completed"
                         onClick={clearCompleted}

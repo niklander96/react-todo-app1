@@ -23,18 +23,16 @@ export default class NewTaskForm extends Component {
         })
     }
     render() {
+        const { title } = this.state;
         return (
-            <header className="header">
-                <h1>todos</h1>
                 <form onSubmit={this.onSubmit}>
                     <input className="new-todo"
                            placeholder="What needs to be done?"
                            autoFocus
                            onChange={this.onTextChange}
-                           value={this.state.title}
+                           value={title}
                     />
                 </form>
-            </header>
 
         )
     }
@@ -44,5 +42,6 @@ export default class NewTaskForm extends Component {
 }
 
 NewTaskForm.propTypes = {
-    addItem: PropTypes.func.isRequired
+    addItem: PropTypes.func.isRequired,
+    onTextChange: PropTypes.func.isRequired
 }

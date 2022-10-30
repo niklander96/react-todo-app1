@@ -1,84 +1,72 @@
 import Task from "../Task";
 import PropTypes from 'prop-types'
-import "./TaskList.css"
+import "./TaskList.css";
 import {Component} from "react";
 
-export default class TaskList extends Component {
-    state = {
-        title: ''
+export default class TaskList extends Component{
+state ={
+    title: ''
+}
+
+
+editTask = (e) => {
+    this.setState({
+        title: e.target.value,
+    })
+}
+
+submitEdit = (e, id, newTitle) => {
+    const { editItem } = this.props;
+    const { title } = this.state;
+    e.preventDefault();
+    editItem(id, title === '' ? newTitle : title)
+    this.setState({
+        title: '',
+    })
+}
+
+elements = (todos, status) => {
+    const { onDeleted, changeStatus} = this.props;
+    if (status === 'active') {
+        todos = todos.filter(el => !el.done)
     }
-    elements = (todos, status) => {
-        const {onDeleted, onChangeStatus} = this.props;
-        if (status === 'active') {
-            todos: todos.filter(el => !el.done)
-        }
-        if (status === 'complete') {
-            todos: todos.filter(el => el.done)
-        }
-        return todos.map(el => {
-            const { title, id, edit, done} = el;
-            let classChange = '';
-            if (edit) {
-                classChange = 'editing'
-            } else {
-                classChange = done ? 'completed' : classChange
-            }
-            return (
-                <ul className='todo-list'>
-                    <li className={classChange} key={id}>
-                        <Task
-                            title={title || undefined}
-                            done={done}
-                            key={todo.id}
-                            onDeleted={() => onDeleted(id)}
-                            onToggleDone={() => onToggleDone(id)}
-                            editItem={() => editItem(todo.id)}
-                            onChangeStatus={() => onChangeStatus()}
-                            />
-                            </li>
-                </ul>
-            )
-
-        })
-
+    if (status === 'complete') {
+        todos = todos.filter(el => el.done)
     }
-    render() {
-    const {todos, onDeleted, onToggleDone, editItem, onChangeStatus} = this.props;
-        let classes = '';
-        if (todos.done) {
-            classes += ' completed';
+    return todos.map(el => {
+        const { title, id, edit, done } = el;
+        let classChange = '';
+        if (edit) {
+            classChange = 'editing';
+        } else {
+            classChange = done ? 'completed' : classChange;
         }
-        return (
-
-            <ul className='todo-list'>
-                <li className={classes}
-                >
-                    {todos.map(todo => {
-                        return <Task
-                            todo={todo}
-                            done={todo.done}
-                            key={todo.id}
-                            onDeleted={() => onDeleted(todo.id)}
-                            onToggleDone={() => onToggleDone(todo.id)}
-                            editItem={() => editItem(todo.id)}
-                            onChangeStatus={() => onChangeStatus()}
-                        />
-                    })
-                    }
-                    {/*{isEditing ? (*/}
-                    {/*    <form onSubmit={(e) => this.onSubmit}>*/}
-                    {/*        <input type="text"*/}
-                    {/*               className="edit"*/}
-                    {/*               onChange={this.editItem}*/}
-                    {/*               defaultValue={this.state.title}*/}
-
-                    {/*        />*/}
-                    {/*    </form>*/}
-                    {/*) : null}*/}
-                </li>
-            </ul>
+        return  (
+            <li className={classChange} key={id}>
+                <Task
+                title={title || undefined}
+                id={id}
+                done={done}
+                onDeleted={() => onDeleted(id)}
+                onCompleted={() => changeStatus(id, 'done')}
+                onEdited={() => changeStatus(id, 'edit')}
+                />
+                {edit ? (
+                    <form onSubmit={(e) => this.submitEdit(e, id, title)}>
+                        <input type="text" className="edit" autoFocus onChange={this.editTask} defaultValue={title}/>
+                    </form>
+                ) : null}
+            </li>
         )
-    }
+    })
+}
+
+render() {
+    const {todos, renderStatus} = this.props;
+    const elements = this.elements(todos, renderStatus);
+    return ( <ul className='todo-list'>{elements}</ul>)
+
+}
 
 
 }
@@ -86,8 +74,4 @@ TaskList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.object.isRequired),
 
 }
-
-
-
-
 
