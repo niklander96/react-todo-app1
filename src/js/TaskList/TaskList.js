@@ -3,75 +3,86 @@ import PropTypes from 'prop-types'
 import "./TaskList.css";
 import {Component} from "react";
 
-export default class TaskList extends Component{
-state ={
-    title: ''
-}
-
-
-editTask = (e) => {
-    this.setState({
-        title: e.target.value,
-    })
-}
-
-submitEdit = (e, id, newTitle) => {
-    const { editItem } = this.props;
-    const { title } = this.state;
-    e.preventDefault();
-    editItem(id, title === '' ? newTitle : title)
-    this.setState({
-        title: '',
-    })
-}
-
-elements = (todos, status) => {
-    const { onDeleted, changeStatus} = this.props;
-    if (status === 'active') {
-        todos = todos.filter(el => !el.done)
+export default class TaskList extends Component {
+    state = {
+        title: ''
     }
-    if (status === 'complete') {
-        todos = todos.filter(el => el.done)
+
+
+    editTask = (e) => {
+        this.setState({
+            title: e.target.value,
+        })
     }
-    return todos.map(el => {
-        const { title, id, edit, done } = el;
-        let classChange = '';
-        if (edit) {
-            classChange = 'editing';
-        } else {
-            classChange = done ? 'completed' : classChange;
+
+    submitEdit = (e, id, newTitle) => {
+        const { editItem } = this.props;
+        const { title } = this.state;
+        e.preventDefault();
+        editItem(id, title === '' ? newTitle : title)
+        this.setState({
+            title: '',
+        })
+    }
+
+    elements = (todos, status) => {
+        const { deleteItem, changeStatus } = this.props;
+        if (status === 'active') {
+            todos = todos.filter(el => !el.done)
         }
-        return  (
-            <li className={classChange} key={id}>
-                <Task
-                title={title || undefined}
-                id={id}
-                done={done}
-                onDeleted={() => onDeleted(id)}
-                onCompleted={() => changeStatus(id, 'done')}
-                onEdited={() => changeStatus(id, 'edit')}
-                />
-                {edit ? (
-                    <form onSubmit={(e) => this.submitEdit(e, id, title)}>
-                        <input type="text" className="edit" autoFocus onChange={this.editTask} defaultValue={title}/>
-                    </form>
-                ) : null}
-            </li>
-        )
-    })
-}
+        if (status === 'complete') {
+            todos = todos.filter(el => el.done)
+        }
+        return todos.map(el => {
+            const { title, id, edit, done } = el;
+            let classChange = '';
+            if (edit) {
+                classChange = 'editing';
+            } else {
+                classChange = done ? 'completed' : classChange;
+            }
+            return (
+                <li className={classChange} key={id}>
+                    <Task
+                        title={title || undefined}
+                        id={id}
+                        done={done}
+                        onDeleted={() => deleteItem(id)}
+                        onCompleted={() => changeStatus(id, 'done')}
+                        onEdited={() => changeStatus(id, 'edit')}
+                    />
+                    {edit ? (
+                        <form onSubmit={(e) => this.submitEdit(e, id, title)}>
+                            <input type="text"
+                                   className="edit"
+                                   autoFocus
+                                   onChange={this.editTask}
+                                   defaultValue={title}/>
+                        </form>
+                    ) : null}
+                </li>
+            )
+        })
+    }
 
-render() {
-    const {todos, renderStatus} = this.props;
-    const elements = this.elements(todos, renderStatus);
-    return ( <ul className='todo-list'>{elements}</ul>)
+    render() {
+        const {todos, renderStatus} = this.props;
+        const elements = this.elements(todos, renderStatus);
+        return (<ul className='todo-list'>{elements}</ul>)
 
-}
+    }
 
 
 }
 TaskList.propTypes = {
-    todos: PropTypes.arrayOf(PropTypes.object.isRequired),
-
+    editTodo: PropTypes.func,
+    changeStatus: PropTypes.func,
+    todos: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.string,
+            id: PropTypes.number,
+            edit: PropTypes.bool,
+            done: PropTypes.bool,
+        }),
+    ).isRequired,
 }
 

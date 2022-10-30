@@ -5,11 +5,11 @@ import "./TaskFilter.css"
 export default class TasksFilter extends Component {
 
     filterTasks = (e, status) => {
-        const { onChangeRenderStatus } = this.props
+        const { changeRenderStatus } = this.props
         const allBtn = document.querySelectorAll('.selected')
         allBtn.forEach((item) => item.classList.remove('selected'))
         e.target.classList.add('selected')
-        onChangeRenderStatus(status)
+        changeRenderStatus(status);
     }
 
     render() {
@@ -17,15 +17,14 @@ export default class TasksFilter extends Component {
         return (
             <ul className="filters">
                 <li>
-                    <button className="selected"
-                            onClick={(e) => this.filterTasks(e, 'all')}
+                    <button onClick={(e) => this.filterTasks(e, 'all')}
                     >All</button>
                 </li>
                 <li>
                     <button onClick={(e) => this.filterTasks(e, 'active')}>Active</button>
                 </li>
                 <li>
-                    <button onClick={(e) => this.filterTasks(e, 'completed')}>Completed</button>
+                    <button onClick={(e) => this.filterTasks(e, 'complete')}>Completed</button>
                 </li>
             </ul>
         )

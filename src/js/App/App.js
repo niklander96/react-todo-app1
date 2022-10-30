@@ -12,7 +12,7 @@ export default class App extends Component {
     state = {
         todos: [this.createTodoItem('Create first task')],
         currentItems: [],
-        renderStatus: 'all',
+        renderStatus: '',
     }
 
     createTodoItem(text) {
@@ -38,39 +38,24 @@ export default class App extends Component {
         })
     }
 
-    onToggleDone = (id) => {
-        this.setState(({todos}) => {
-            const idx = todos.findIndex(el => el.id === id);
-            const oldItem = todos[idx];
-            const newItem = {...oldItem, done: !oldItem.done};
-            const newTodos = [
-                ...todos.slice(0, idx),
-                newItem,
-                ...todos.slice(idx + 1)
-            ];
-            return {
-                todos: newTodos
-            };
-        });
-    };
+
 
     editItem = (id, title) => {
-        this.setState(({todos}) => {
-            todos.map(el => {
+        this.setState(({ todos }) => ({
+           todos: todos.map(el => {
                 const newEl = {...el};
                 if (newEl.id === id) {
-                    newEl.isEditing = false;
+                    newEl.edit = false;
                     newEl.title = title;
                 }
                 return newEl;
-            })
-
-        })
+            }),
+        }))
     }
 
     addItem = (text) => {
         const newItem = this.createTodoItem(text);
-        this.setState(({todos}) => {
+        this.setState(({ todos }) => {
             const newTodos = [
                 ...todos,
                 newItem
@@ -81,14 +66,13 @@ export default class App extends Component {
         });
     };
 
-    ChangeStatus = (id, statusFlag) => {
+    changeStatus = (id, statusFlag) => {
         this.setState(({ todos }) => ({
             todos: todos.map((el) => {
-                const newEl = { ...el}
+                const newEl = { ...el }
                 if (newEl.id === id) newEl[statusFlag] = !el[statusFlag];
-                return newEl
+                return newEl;
             })
-
         }))
     }
 
@@ -99,7 +83,7 @@ export default class App extends Component {
     }
 
     clearCompleted = () => {
-        this.setState(({todos}) => ({
+        this.setState(({ todos }) => ({
             todos: todos.filter((el) => !el.done)
         }))
     }
@@ -114,14 +98,13 @@ export default class App extends Component {
             <section className='todoapp'>
                 <header className="header">
                     <h1>todos</h1>
-                <NewTaskForm addItem={this.addItem}/>
+                <NewTaskForm addItem={this.addItem} />
                     </header>
                 <section className='main'>
                     <TaskList
                         todos={todos}
                         deleteItem={this.deleteItem}
-                        onToggleDone={this.onToggleDone}
-                        addItem={this.addItem}
+                        changeStatus={this.changeStatus}
                         editItem={this.editItem}
                         renderStatus={renderStatus}
                     />
@@ -129,7 +112,7 @@ export default class App extends Component {
                         toDo={todoCount}
                         todos={todos}
                         clearCompleted={this.clearCompleted}
-                        ChangeRenderStatus={this.changeRenderStatus}
+                        changeRenderStatus={this.changeRenderStatus}
                     />
                 </section>
             </section>
