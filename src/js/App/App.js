@@ -1,6 +1,9 @@
 import React from "react";
 import NewTaskForm from "../NewTaskForm";
 import Footer from "../Footer";
+import React from "react";
+import NewTaskForm from "../NewTaskForm";
+import Footer from "../Footer";
 import TaskList from "../TaskList";
 import {Component} from "react";
 import "./App.css"
@@ -82,11 +85,11 @@ export default class App extends Component {
 
     onChangeStatus = (id, statusFlag) => {
         this.setState(({ todos }) => ({
-           todos: todos.map((el) => {
-               const newEl = { ...el}
-               if (newEl.id === id) newEl[statusFlag] = !el[statusFlag];
-               return newEl
-           })
+            todos: todos.map((el) => {
+                const newEl = { ...el}
+                if (newEl.id === id) newEl[statusFlag] = !el[statusFlag];
+                return newEl
+            })
 
         }))
     }
@@ -140,7 +143,3 @@ export default class App extends Component {
         )
     }
 }
-
-
-
-

@@ -9,35 +9,35 @@ export default class NewTaskForm extends Component {
     };
 
 
-onTextChange = (e) => {
-    this.setState({
-       title: e.target.value
-    })
-}
+    onTextChange = (e) => {
+        this.setState({
+            title: e.target.value
+        })
+    }
 
-onSubmit = (e) => {
-    e.preventDefault()
-    this.props.addItem(this.state.title);
-    this.setState({
-        title: ''
-    })
-}
-render() {
-    return (
-        <header className="header">
-            <h1>todos</h1>
-            <form onSubmit={this.onSubmit}>
-                <input className="new-todo"
-                       placeholder="What needs to be done?"
-                       autoFocus
-                       onChange={this.onTextChange}
-                       value={this.state.title}
-                />
-            </form>
-        </header>
+    onSubmit = (e) => {
+        e.preventDefault()
+        this.props.addItem(this.state.title);
+        this.setState({
+            title: ''
+        })
+    }
+    render() {
+        return (
+            <header className="header">
+                <h1>todos</h1>
+                <form onSubmit={this.onSubmit}>
+                    <input className="new-todo"
+                           placeholder="What needs to be done?"
+                           autoFocus
+                           onChange={this.onTextChange}
+                           value={this.state.title}
+                    />
+                </form>
+            </header>
 
-    )
-}
+        )
+    }
 
 
 
@@ -46,4 +46,3 @@ render() {
 NewTaskForm.propTypes = {
     addItem: PropTypes.func.isRequired
 }
-

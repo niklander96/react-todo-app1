@@ -78,4 +78,3 @@ export default class Task extends Component {
 Task.propTypes = {
     todo: PropTypes.object.isRequired,
 }
-
