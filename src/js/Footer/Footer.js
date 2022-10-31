@@ -18,6 +18,11 @@ export default class Footer extends Component {
         )
     }
 }
+Footer.defaultProps = {
+    todo: 0,
+    changeRenderStatus: () => {},
+    clearCompleted: () => {},
+}
 
 Footer.propTypes = {
     toDo: PropTypes.number,

@@ -38,8 +38,6 @@ export default class App extends Component {
         })
     }
 
-
-
     editItem = (id, title) => {
         this.setState(({ todos }) => ({
            todos: todos.map(el => {
@@ -87,8 +85,6 @@ export default class App extends Component {
             todos: todos.filter((el) => !el.done)
         }))
     }
-
-
 
     render() {
         const { todos, renderStatus } = this.state;

@@ -16,8 +16,8 @@ export default class TaskList extends Component {
     }
 
     submitEdit = (e, id, newTitle) => {
-        const { editItem } = this.props;
-        const { title } = this.state;
+        const {editItem} = this.props;
+        const {title} = this.state;
         e.preventDefault();
         editItem(id, title === '' ? newTitle : title)
         this.setState({
@@ -26,15 +26,15 @@ export default class TaskList extends Component {
     }
 
     elements = (todos, status) => {
-        const { deleteItem, changeStatus } = this.props;
+        const {deleteItem, changeStatus} = this.props;
         if (status === 'active') {
-            todos = todos.filter(el => !el.done)
+            todos = todos.filter(el => !el.done);
         }
         if (status === 'complete') {
-            todos = todos.filter(el => el.done)
+            todos = todos.filter(el => el.done);
         }
         return todos.map(el => {
-            const { title, id, edit, done } = el;
+            const {title, id, edit, done} = el;
             let classChange = '';
             if (edit) {
                 classChange = 'editing';
@@ -50,6 +50,7 @@ export default class TaskList extends Component {
                         onDeleted={() => deleteItem(id)}
                         onCompleted={() => changeStatus(id, 'done')}
                         onEdited={() => changeStatus(id, 'edit')}
+                        todo={todos}
                     />
                     {edit ? (
                         <form onSubmit={(e) => this.submitEdit(e, id, title)}>
@@ -86,3 +87,7 @@ TaskList.propTypes = {
     ).isRequired,
 }
 
+TaskList.defaultProps = {
+    editTodo: () => {},
+    changeStatus: () => {},
+}

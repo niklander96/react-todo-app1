@@ -1,9 +1,8 @@
 import {Component} from "react";
 import "./TaskFilter.css"
-
+import PropTypes from "prop-types";
 
 export default class TasksFilter extends Component {
-
     filterTasks = (e, status) => {
         const { changeRenderStatus } = this.props
         const allBtn = document.querySelectorAll('.selected')
@@ -13,7 +12,6 @@ export default class TasksFilter extends Component {
     }
 
     render() {
-
         return (
             <ul className="filters">
                 <li>
@@ -28,10 +26,15 @@ export default class TasksFilter extends Component {
                 </li>
             </ul>
         )
-    }
-
+   }
+}
+TasksFilter.defaultProps = {
+    changeRenderStatus: () => {},
 }
 
+TasksFilter.propTypes = {
+    changeRenderStatus: PropTypes.func,
+}
 
 
 

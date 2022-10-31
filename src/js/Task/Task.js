@@ -36,6 +36,13 @@ export default class Task extends Component {
         )
     }
 }
+Task.defaultProps = {
+    onCompleted: () => {},
+    onEdited: () => {},
+    onDeleted: () => {},
+    done: false,
+    title: 'Empty task',
+}
 
 Task.propTypes = {
     todo: PropTypes.object.isRequired,
