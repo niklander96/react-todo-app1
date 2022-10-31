@@ -14,6 +14,8 @@
     "quotes": "off",
     "comma-dangle": "off",
     "object-curly-newline": "off",
-    "eol-last": "off"
+    "eol-last": "off",
+    "no-tabs": "off",
+    "padded-blocks": "off"
   }
 }
