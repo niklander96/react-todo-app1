@@ -72,6 +72,11 @@ export default class TaskList extends Component {
     }
 }
 
+TaskList.defaultProps = {
+    editTodo: () => {},
+    changeStatus: () => {},
+}
+
 TaskList.propTypes = {
     editTodo: PropTypes.func,
     changeStatus: PropTypes.func,
@@ -83,7 +88,3 @@ TaskList.propTypes = {
         }),).isRequired,
 }
 
-TaskList.defaultProps = {
-    editTodo: () => {},
-    changeStatus: () => {},
-}
