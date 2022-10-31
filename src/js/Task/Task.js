@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import {Component} from "react";
-import {formatDistanceToNow} from "date-fns";
+import Component from "react";
+import formatDistanceToNow from "date-fns/esm/formatDistanceToNow";
 
 export default class Task extends Component {
     state = {
