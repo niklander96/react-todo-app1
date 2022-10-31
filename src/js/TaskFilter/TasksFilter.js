@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 export default class TasksFilter extends Component {
     filterTasks = (e, status) => {
-        const { changeRenderStatus } = this.props
-        const allBtn = document.querySelectorAll('.selected')
-        allBtn.forEach((item) => item.classList.remove('selected'))
-        e.target.classList.add('selected')
+        const { changeRenderStatus } = this.props;
+        const allBtn = document.querySelectorAll('.selected');
+        allBtn.forEach((item) => item.classList.remove('selected'));
+        e.target.classList.add('selected');
         changeRenderStatus(status);
     }
 

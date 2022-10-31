@@ -45,7 +45,7 @@ Task.defaultProps = {
 }
 
 Task.propTypes = {
-    todo: PropTypes.object.isRequired,
+    todo: PropTypes.object,
     onCompleted: PropTypes.func,
     onEdited: PropTypes.func,
     onDeleted: PropTypes.func,

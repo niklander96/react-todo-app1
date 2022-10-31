@@ -4,5 +4,16 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb/base"]
+  "extends": ["airbnb/base"],
+  "rules": {
+    "semi": "off",
+    "no-console": "off",
+    "linebreak-style": "off",
+    "object-curly-spacing": "off",
+    "indent": "off",
+    "quotes": "off",
+    "comma-dangle": "off",
+    "object-curly-newline": "off",
+    "eol-last": "off"
+  }
 }
