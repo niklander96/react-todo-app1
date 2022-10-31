@@ -19,7 +19,7 @@ export default class Footer extends Component {
     }
 }
 Footer.defaultProps = {
-    todo: 0,
+    toDo: 0,
     changeRenderStatus: () => {},
     clearCompleted: () => {},
 }

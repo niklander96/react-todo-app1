@@ -9,15 +9,15 @@ export default class Task extends Component {
     }
 
     timeLeft = () => {
-        this.setState(({ dateCreate }) => ({
+        this.setState(({dateCreate}) => ({
             dateCreate,
-            date: formatDistanceToNow(dateCreate, { includeSeconds: true, addSuffix: true })
+            date: formatDistanceToNow(dateCreate, {includeSeconds: true, addSuffix: true})
         }))
     }
 
     render() {
-        const { date } = this.state;
-        const { onDeleted, onCompleted, done, onEdited, title, id } = this.props;
+        const {date} = this.state;
+        const {onDeleted, onCompleted, done, onEdited, title, id} = this.props;
         setInterval(this.timeLeft, 5000);
         return (
             <div className='view'>
@@ -37,9 +37,12 @@ export default class Task extends Component {
     }
 }
 Task.defaultProps = {
-    onCompleted: () => {},
-    onEdited: () => {},
-    onDeleted: () => {},
+    onCompleted: () => {
+    },
+    onEdited: () => {
+    },
+    onDeleted: () => {
+    },
     done: false,
     title: 'Empty task',
 }
