@@ -1,13 +1,12 @@
-import Task from "../Task";
 import PropTypes from 'prop-types'
 import "./TaskList.css";
 import {Component} from "react";
+import Task from "../Task";
 
 export default class TaskList extends Component {
     state = {
         title: ''
     }
-
 
     editTask = (e) => {
         this.setState({
@@ -70,11 +69,9 @@ export default class TaskList extends Component {
         const {todos, renderStatus} = this.props;
         const elements = this.elements(todos, renderStatus);
         return (<ul className='todo-list'>{elements}</ul>)
-
     }
-
-
 }
+
 TaskList.propTypes = {
     editTodo: PropTypes.func,
     changeStatus: PropTypes.func,
@@ -83,8 +80,7 @@ TaskList.propTypes = {
             id: PropTypes.number,
             edit: PropTypes.bool,
             done: PropTypes.bool,
-        }),
-    ).isRequired,
+        }),).isRequired,
 }
 
 TaskList.defaultProps = {

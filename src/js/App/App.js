@@ -1,8 +1,7 @@
-import React from "react";
+import React, {Component} from "react";
 import NewTaskForm from "../NewTaskForm";
 import Footer from "../Footer";
 import TaskList from "../TaskList";
-import {Component} from "react";
 import "./App.css"
 
 export default class App extends Component {
@@ -21,7 +20,6 @@ export default class App extends Component {
             id: this.maxId++,
             edit: false,
             done: false,
-
         }
     }
 

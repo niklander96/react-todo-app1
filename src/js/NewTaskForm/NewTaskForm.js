@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import "./NewTaskForm.css"
 
 export default class NewTaskForm extends Component {
-
     state = {
         title: ''
     };
-
 
     onTextChange = (e) => {
         this.setState({
@@ -33,11 +31,8 @@ export default class NewTaskForm extends Component {
                            value={title}
                     />
                 </form>
-
         )
     }
-
-
 
 }
 NewTaskForm.defaultProps = {
