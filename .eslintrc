@@ -6,14 +6,14 @@
   },
   "extends": ["airbnb/base"],
   "rules": {
-    "semi": "off",
-    "no-console": "off",
-    "linebreak-style": "off",
-    "object-curly-spacing": "off",
-    "indent": "off",
-    "quotes": "off",
-    "comma-dangle": "off",
-    "object-curly-newline": "off",
-    "eol-last": "off"
+    "semi": "error",
+    "no-console": "error",
+    "linebreak-style": "error",
+    "object-curly-spacing": "error",
+    "indent": "error",
+    "quotes": "error",
+    "comma-dangle": "error",
+    "object-curly-newline": "error",
+    "eol-last": "error"
   }
 }
