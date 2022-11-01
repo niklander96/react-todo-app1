@@ -11,13 +11,19 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
-    "sourceType": "module"
+    "sourceType": "module",
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
   },
+
   "plugins": ["react", "prettier", "import"],
   "rules": {
     "indent": ["error", 2],
@@ -46,6 +52,9 @@
   },
   "settings": {
     "import/resolver": {
+      "react": {
+        "version": "detect"
+      },
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "moduleDirectory": ["node_modules", "src/"]

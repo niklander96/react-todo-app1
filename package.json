@@ -47,15 +47,18 @@
   },
   "lint-staged": {
     "*.(js|jsx)": [
+      "npm run lint",
       "npm run lint:fix",
       "git add"
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
