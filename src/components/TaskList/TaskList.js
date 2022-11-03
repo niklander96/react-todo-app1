@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import './TaskList.css'
 import { Component } from 'react'
-
 import Task from '../Task'
+
 
 export default class TaskList extends Component {
   state = {
@@ -26,7 +26,7 @@ export default class TaskList extends Component {
   }
 
   elements = (todos, status) => {
-    const { deleteItem, changeStatus } = this.props
+    const { deleteItem, changeStatus, timeLeft } = this.props
     if (status === 'active') {
       todos = todos.filter((el) => !el.done)
     }
@@ -34,7 +34,7 @@ export default class TaskList extends Component {
       todos = todos.filter((el) => el.done)
     }
     return todos.map((el) => {
-      const { title, id, edit, done } = el
+      const { title, id, edit, done, dateCreate, date } = el
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -45,6 +45,10 @@ export default class TaskList extends Component {
         <li className={classChange} key={id}>
           <Task
             title={title || undefined}
+
+            dateCreate={dateCreate}
+            date={date}
+            timeLeft={timeLeft}
             id={id}
             done={done}
             onDeleted={() => deleteItem(id)}
@@ -64,8 +68,8 @@ export default class TaskList extends Component {
 
   render() {
     const { todos, renderStatus } = this.props
-    const elements = this.elements(todos, renderStatus)
-    return <ul className='todo-list'>{elements}</ul>
+    const itemsToDo = this.elements(todos, renderStatus)
+    return <ul className='todo-list'>{itemsToDo}</ul>
   }
 }
 
