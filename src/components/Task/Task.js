@@ -6,7 +6,7 @@ export default class Task extends Component {
 
 state = {
 	dateCreate: new Date(),
-	date: 'less then 5 seconds ago'
+	date: `less then 5 seconds ago`
 }
 	timeLeft = () => {
 		this.setState({
@@ -15,14 +15,14 @@ state = {
 	}
 	render() {
 
-		const {onDeleted, onCompleted, done, onEdited, title, id} = this.props
+		const {onDeleted, onCompleted, done, onEdited, title, id } = this.props
 		setInterval(this.timeLeft, 5000)
 		return (
 			<div className='view'>
 				<input type='checkbox' className='toggle' onChange={onCompleted} checked={done}/>
 				<label htmlFor={id}>
 					<span className='description'>{`${title}`}</span>
-					<span className='created'>{formatDistanceToNow(this.state.dateCreate, {includeSeconds: true})}</span>
+					<span className='created'>{`${this.state.date}`}</span>
 				</label>
 				<button className='icon icon-edit' onClick={onEdited}></button>
 				<button className='icon icon-destroy' onClick={onDeleted}></button>
