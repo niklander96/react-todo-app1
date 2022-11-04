@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import './TaskList.css'
 import { Component } from 'react'
-import Task from '../Task'
 
+import Task from '../Task'
 
 export default class TaskList extends Component {
   state = {
@@ -45,7 +45,6 @@ export default class TaskList extends Component {
         <li className={classChange} key={id}>
           <Task
             title={title || undefined}
-
             dateCreate={dateCreate}
             date={date}
             timeLeft={timeLeft}

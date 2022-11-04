@@ -1,120 +1,118 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import NewTaskForm from '../NewTaskForm'
 import Footer from '../Footer'
 import TaskList from '../TaskList'
-import './App.css'
-import {formatDistanceToNow} from "date-fns";
 
+import './App.css'
 
 export default class App extends Component {
-	maxId = 0
+  maxId = 0
 
-	state = {
-		todos: [this.createTodoItem('Create first task')],
-		renderStatus: '',
-	}
+  state = {
+    todos: [this.createTodoItem('Create first task')],
+    renderStatus: 'all',
+  }
 
+  createTodoItem(text) {
+    if (text) {
+      return {
+        title: text,
+        id: this.maxId++,
+        edit: false,
+        done: false,
+        dateCreate: new Date(),
+        date: 'less then 5 seconds ago',
+      }
+    } else {
+      throw new Error('Empty Task')
+    }
+  }
 
+  deleteItem = (id) => {
+    this.setState(({ todos }) => {
+      const idx = todos.findIndex((el) => el.id === id)
+      const newTodos = [...todos.slice(0, idx), ...todos.slice(idx + 1)]
+      return {
+        todos: newTodos,
+      }
+    })
+  }
 
-	createTodoItem(text) {
-		if (text) {
-			return {
-				title: text,
-				id: this.maxId++,
-				edit: false,
-				done: false,
-				dateCreate: new Date(),
-				date: 'less then 5 seconds ago'
-			}
-		} else {
-			throw new Error('Empty Task')
-		}
-	}
+  editItem = (id, title) => {
+    this.setState(({ todos }) => ({
+      todos: todos.map((el) => {
+        const newEl = { ...el }
+        if (newEl.id === id) {
+          newEl.edit = false
+          newEl.title = title
+        }
+        return newEl
+      }),
+    }))
+  }
 
-	deleteItem = (id) => {
-		this.setState(({todos}) => {
-			const idx = todos.findIndex((el) => el.id === id)
-			const newTodos = [...todos.slice(0, idx), ...todos.slice(idx + 1)]
-			return {
-				todos: newTodos,
-			}
-		})
-	}
+  addItem = (text) => {
+    const newItem = this.createTodoItem(text)
+    this.setState(({ todos }) => {
+      const newTodos = [...todos, newItem]
+      return {
+        todos: newTodos,
+      }
+    })
+  }
 
-	editItem = (id, title) => {
-		this.setState(({todos}) => ({
-			todos: todos.map((el) => {
-				const newEl = {...el}
-				if (newEl.id === id) {
-					newEl.edit = false
-					newEl.title = title
-				}
-				return newEl
-			}),
-		}))
-	}
+  changeStatus = (id, statusFlag) => {
+    this.setState({
+      todos: [...this.state.todos].map((el) => {
+        if (el.id === id) {
+          el[statusFlag] = !el[statusFlag]
+        }
+        return el
+      }),
+    })
+  }
 
-	addItem = (text) => {
-		const newItem = this.createTodoItem(text)
-		this.setState(({todos}) => {
-			const newTodos = [...todos, newItem]
-			return {
-				todos: newTodos,
-			}
-		})
-	}
+  changeRenderStatus = (status) => {
+    this.setState({
+      renderStatus: status,
+    })
+  }
 
-	changeStatus = (id, statusFlag) => {
-		this.setState( {
-			todos: [...this.state.todos].map((el) => {
-					if (el.id === id) {
-						el[statusFlag] = !el[statusFlag]
-						return el
-					}
-					return el
-				})
-		})
-	}
+  clearCompleted = () => {
+    this.setState(({ todos }) => ({
+      todos: todos.filter((el) => !el.done),
+    }))
+  }
 
-	changeRenderStatus = (status) => {
-		this.setState({
-			renderStatus: status,
-		})
-	}
-
-	clearCompleted = () => {
-		this.setState(({todos}) => ({
-			todos: todos.filter((el) => !el.done),
-		}))
-	}
-
-	render() {
-		const {todos, renderStatus, date, dateCreate} = this.state
-		let doneCount = this.state.todos.filter((el) => el.done).length
-		let todoCount = this.state.todos.length - doneCount
-		return (
-			<section className='todoapp'>
-				<header className='header'>
-					<h1>todos</h1>
-					<NewTaskForm addItem={this.addItem}/>
-				</header>
-				<section className='main'>
-					<TaskList
-						todos={todos}
-						timeLeft={this.timeLeft}
-						deleteItem={this.deleteItem}
-						changeStatus={this.changeStatus}
-						editItem={this.editItem}
-						renderStatus={renderStatus}
-					/>
-					<Footer
-						toDo={todoCount}
-						clearCompleted={this.clearCompleted}
-						changeRenderStatus={this.changeRenderStatus}
-					/>
-				</section>
-			</section>
-		)
-	}
+  render() {
+    const { todos, renderStatus, date, dateCreate } = this.state
+    let doneCount = this.state.todos.filter((el) => el.done).length
+    let todoCount = this.state.todos.length - doneCount
+    return (
+      <section className='todoapp'>
+        <header className='header'>
+          <h1>todos</h1>
+          <NewTaskForm addItem={this.addItem} />
+        </header>
+        <section className='main'>
+          <TaskList
+            todos={todos}
+            date={date}
+            dateCreate={dateCreate}
+            deleteItem={this.deleteItem}
+            changeStatus={this.changeStatus}
+            editItem={this.editItem}
+            renderStatus={renderStatus}
+          />
+          <Footer
+              renderStatus={renderStatus}
+              toDo={todoCount}
+              clearCompleted={this.clearCompleted}
+              changeRenderStatus={this.changeRenderStatus}
+          />
+        </section>
+      </section>
+    )
+  }
 }
