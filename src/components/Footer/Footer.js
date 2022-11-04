@@ -10,7 +10,7 @@ export default class Footer extends Component {
     return (
       <footer className='footer'>
         <span className='todo-count'>{`${toDo} items left`}</span>
-        <TasksFilter changeRenderStatus={changeRenderStatus} renderStatus={renderStatus}/>
+        <TasksFilter changeRenderStatus={changeRenderStatus} renderStatus={renderStatus} />
         <button className='clear-completed' onClick={clearCompleted}>
           Clear completed
         </button>
