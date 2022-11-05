@@ -3,7 +3,6 @@ import { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
 export default class Task extends Component {
-
   timeLeft = () => {
     const { dateCreate } = this.props
     this.setState({
@@ -12,7 +11,6 @@ export default class Task extends Component {
   }
 
   render() {
-
     const { onDeleted, onCompleted, done, onEdited, title, id, dateCreate } = this.props
     setInterval(this.timeLeft, 5000)
     return (

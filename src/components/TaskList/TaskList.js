@@ -26,7 +26,7 @@ export default class TaskList extends Component {
   }
 
   elements = (todos, status) => {
-    const { deleteItem, changeStatus, timeLeft } = this.props
+    const { deleteItem, changeStatus } = this.props
     if (status === 'active') {
       todos = todos.filter((el) => !el.done)
     }
@@ -47,7 +47,6 @@ export default class TaskList extends Component {
             title={title || undefined}
             dateCreate={dateCreate}
             date={date}
-            timeLeft={timeLeft}
             id={id}
             done={done}
             onDeleted={() => deleteItem(id)}
@@ -82,7 +81,7 @@ TaskList.propTypes = {
   changeStatus: PropTypes.func,
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      title: PropTypes.string,
       id: PropTypes.number,
       edit: PropTypes.bool,
       done: PropTypes.bool,

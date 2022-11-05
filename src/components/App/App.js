@@ -87,8 +87,8 @@ export default class App extends Component {
 
   render() {
     const { todos, renderStatus, date, dateCreate } = this.state
-    let doneCount = this.state.todos.filter((el) => el.done).length
-    let todoCount = this.state.todos.length - doneCount
+    let doneCount = todos.filter((el) => el.done).length
+    let todoCount = todos.length - doneCount
     return (
       <section className='todoapp'>
         <header className='header'>
@@ -106,10 +106,10 @@ export default class App extends Component {
             renderStatus={renderStatus}
           />
           <Footer
-              renderStatus={renderStatus}
-              toDo={todoCount}
-              clearCompleted={this.clearCompleted}
-              changeRenderStatus={this.changeRenderStatus}
+            renderStatus={renderStatus}
+            toDo={todoCount}
+            clearCompleted={this.clearCompleted}
+            changeRenderStatus={this.changeRenderStatus}
           />
         </section>
       </section>
