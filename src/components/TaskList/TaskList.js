@@ -34,13 +34,14 @@ export default class TaskList extends Component {
       todos = todos.filter((el) => el.done)
     }
     return todos.map((el) => {
-      const { title, id, edit, done, dateCreate, date } = el
+      const { title, id, edit, done, dateCreate, date, seconds, minutes } = el
       let classChange = ''
       if (edit) {
         classChange = 'editing'
       } else {
         classChange = done ? 'completed' : classChange
       }
+      console.log(seconds, minutes)
       return (
         <li className={classChange} key={id}>
           <Task
@@ -49,6 +50,8 @@ export default class TaskList extends Component {
             date={date}
             id={id}
             done={done}
+            seconds={seconds}
+            minutes={minutes}
             onDeleted={() => deleteItem(id)}
             onCompleted={() => changeStatus(id, 'done')}
             onEdited={() => changeStatus(id, 'edit')}

@@ -9,6 +9,15 @@ import './App.css'
 export default class App extends Component {
   maxId = 0
 
+  // getLocalStorage = () => {
+  //   let todos = window.localStorage.getItem('todos')
+  //   if (todos) {
+  //     return (todos = JSON.parse(localStorage.getItem(todos)))
+  //   } else {
+  //     return []
+  //   }
+  // }
+
   state = {
     todos: [this.createTodoItem('Create first task')],
     renderStatus: 'all',
@@ -23,6 +32,8 @@ export default class App extends Component {
         done: false,
         dateCreate: new Date(),
         date: 'less then 5 seconds ago',
+        seconds: 0,
+        minutes: 0,
       }
     } else {
       throw new Error('Empty Task')
@@ -86,9 +97,10 @@ export default class App extends Component {
   }
 
   render() {
-    const { todos, renderStatus, date, dateCreate } = this.state
+    const { todos, renderStatus, date, dateCreate, seconds, minutes } = this.state
     let doneCount = todos.filter((el) => el.done).length
     let todoCount = todos.length - doneCount
+
     return (
       <section className='todoapp'>
         <header className='header'>
@@ -99,6 +111,8 @@ export default class App extends Component {
           <TaskList
             todos={todos}
             date={date}
+            seconds={seconds}
+            minutes={minutes}
             dateCreate={dateCreate}
             deleteItem={this.deleteItem}
             changeStatus={this.changeStatus}

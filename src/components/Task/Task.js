@@ -1,8 +1,16 @@
 import PropTypes from 'prop-types'
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
+import Timer from '../Timer'
+
 export default class Task extends Component {
+  state = {
+    timer: null,
+    seconds: 0,
+    minutes: 0,
+  }
+
   timeLeft = () => {
     const { dateCreate } = this.props
     this.setState({
@@ -11,14 +19,23 @@ export default class Task extends Component {
   }
 
   render() {
-    const { onDeleted, onCompleted, done, onEdited, title, id, dateCreate } = this.props
+    const { onDeleted, onCompleted, done, onEdited, title, id, dateCreate, seconds, minutes } = this.props
     setInterval(this.timeLeft, 5000)
     return (
       <div className='view'>
         <input type='checkbox' className='toggle' onChange={onCompleted} checked={done} />
         <label htmlFor={id}>
-          <span className='description'>{`${title}`}</span>
-          <span className='created'>{`created ${formatDistanceToNow(dateCreate, { includeSeconds: true })} ago`}</span>
+          <span className='title'>{`${title}`}</span>
+          <span className='description'>
+            <button className='icon icon-play'></button>
+            <button className='icon icon-pause'></button>
+            <span>
+              <Timer seconds={seconds} minutes={minutes} />
+            </span>
+          </span>
+          <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
+            includeSeconds: true,
+          })} ago`}</span>
         </label>
         <button className='icon icon-edit' onClick={onEdited}></button>
         <button className='icon icon-destroy' onClick={onDeleted}></button>
