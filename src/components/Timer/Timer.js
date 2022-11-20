@@ -1,57 +1,58 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 
-const Timer = () => {
-  const [minutes, setMinutes] = useState(0)
-  const [seconds, setSeconds] = useState(0)
-  const timerLeft = 'November, 20, 2022'
-  const getTime = () => {
-    const time = Date.parse(timerLeft) - Date.now()
-
-    setMinutes(Math.floor((time / 1000 / 60) % 60))
-    setSeconds(Math.floor((time / 1000) % 60))
+export default class Timer extends Component {
+  state = {
+    seconds: this.props.seconds,
+    minutes: this.props.minutes,
+    isStarted: false,
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => getTime(timerLeft), 1000)
+  tick = () => {
+    const { seconds, minutes } = this.state
+    if (seconds > 0) {
+      this.setState({ seconds: seconds - 1 })
+    } else if (minutes > 0) {
+      this.setState({
+        minutes: minutes - 1,
+        seconds: seconds + 59,
+      })
+    } else if (Number(minutes) === 0 && Number(seconds) === 0) {
+      this.getPause()
+    }
+  }
 
-    return () => clearInterval(interval)
-  }, [])
-  return (
-    <div className='timer'>
+  getStart = () => {
+    let interval = null
+    clearInterval(interval)
+    interval = setInterval(() => this.tick(), 1000)
+    this.setState({
+      inter: interval,
+    })
+  }
+
+  getPause = () => {
+    const { inter } = this.state
+    clearInterval(inter)
+    this.setState({
+      inter: null,
+    })
+  }
+  componentDidMount() {
+    this.getPause()
+    this.getStart()
+  }
+
+  render() {
+    const { seconds, minutes, isStarted } = this.state
+    const sec = seconds.toString().padStart(2, '0')
+    const min = minutes.toString().padStart(2, '0')
+    return (
       <div>
-        {minutes}:{seconds}
+        <button className='icon icon-play' onClick={this.getStart}></button>
+        <button className='icon icon-pause' onClick={this.getPause}></button>
+        <span>{`${min}:${sec}`}</span>
       </div>
-    </div>
-  )
+    )
+  }
 }
-
-export default Timer
-
-// export default class Timer extends Component {
-//   state = {
-//     minutes: 0,
-//     seconds: 0,
-//   }
 //
-//   setMinutes = (e) => {
-//     this.setState({
-//       minutes: e.target.value,
-//     })
-//     console.log(this.state.minutes)
-//   }
-//
-//   setSeconds = (e) => {
-//     this.setState({
-//       seconds: e.target.value,
-//     })
-//     console.log(this.state.seconds)
-//   }
-//
-//   getTime = () => {
-//
-//     const time = Date.parse(timerLeft) - Date.now()
-//     //
-//     //     setMinutes(Math.floor((time / 1000 / 60) % 60))
-//     //     setSeconds(Math.floor((time / 1000) % 60))
-//   }
-// }

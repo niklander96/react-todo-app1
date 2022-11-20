@@ -5,12 +5,6 @@ import { formatDistanceToNow } from 'date-fns'
 import Timer from '../Timer'
 
 export default class Task extends Component {
-  state = {
-    timer: null,
-    seconds: 0,
-    minutes: 0,
-  }
-
   timeLeft = () => {
     const { dateCreate } = this.props
     this.setState({
@@ -27,11 +21,9 @@ export default class Task extends Component {
         <label htmlFor={id}>
           <span className='title'>{`${title}`}</span>
           <span className='description'>
-            <button className='icon icon-play'></button>
-            <button className='icon icon-pause'></button>
-            <span>
-              <Timer seconds={seconds} minutes={minutes} />
-            </span>
+            <Timer seconds={seconds} minutes={minutes}>
+              {`${minutes}:${seconds}`}
+            </Timer>
           </span>
           <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
             includeSeconds: true,
@@ -48,6 +40,8 @@ Task.defaultProps = {
   onEdited: () => {},
   onDeleted: () => {},
   done: false,
+  seconds: 59,
+  minutes: 59,
 }
 
 Task.propTypes = {

@@ -41,7 +41,6 @@ export default class TaskList extends Component {
       } else {
         classChange = done ? 'completed' : classChange
       }
-      console.log(seconds, minutes)
       return (
         <li className={classChange} key={id}>
           <Task
