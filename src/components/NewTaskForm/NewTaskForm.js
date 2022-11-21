@@ -13,21 +13,18 @@ export default class NewTaskForm extends Component {
     this.setState({
       seconds: e.target.value,
     })
-    console.log(this.state.seconds)
   }
 
   onMinChange = (e) => {
     this.setState({
       minutes: e.target.value,
     })
-    console.log(this.state.minutes)
   }
 
   onTextChange = (e) => {
     this.setState({
       title: e.target.value,
     })
-    console.log(this.state.title)
   }
 
   onSubmit = (e) => {

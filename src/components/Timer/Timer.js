@@ -17,16 +17,20 @@ export default class Timer extends Component {
         seconds: seconds + 59,
       })
     } else if (Number(minutes) === 0 && Number(seconds) === 0) {
-      this.getPause()
+      this.setState({
+        isStarted: false,
+      })
     }
   }
 
   getStart = () => {
-    let interval = null
-    clearInterval(interval)
-    interval = setInterval(() => this.tick(), 1000)
+    const { isStarted } = this.state
+    this.interval = setInterval(() => {
+      !isStarted && this.tick()
+    }, 1000)
     this.setState({
-      inter: interval,
+      isStarted: true,
+      inter: this.interval,
     })
   }
 
@@ -34,12 +38,9 @@ export default class Timer extends Component {
     const { inter } = this.state
     clearInterval(inter)
     this.setState({
-      inter: null,
+      inter: undefined,
+      isStarted: false,
     })
-  }
-  componentDidMount() {
-    this.getPause()
-    this.getStart()
   }
 
   render() {
@@ -48,9 +49,12 @@ export default class Timer extends Component {
     const min = minutes.toString().padStart(2, '0')
     return (
       <div>
-        <button className='icon icon-play' onClick={this.getStart}></button>
-        <button className='icon icon-pause' onClick={this.getPause}></button>
-        <span>{`${min}:${sec}`}</span>
+        {!isStarted ? (
+          <button className='icon icon-play' onClick={this.getStart}></button>
+        ) : (
+          <button className='icon icon-pause' onClick={this.getPause}></button>
+        )}
+        <div>{`${min}:${sec}`}</div>
       </div>
     )
   }

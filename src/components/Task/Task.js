@@ -20,11 +20,11 @@ export default class Task extends Component {
         <input type='checkbox' className='toggle' onChange={onCompleted} checked={done} />
         <label htmlFor={id}>
           <span className='title'>{`${title}`}</span>
-          <span className='description'>
+          <div className='description'>
             <Timer seconds={seconds} minutes={minutes}>
               {`${minutes}:${seconds}`}
             </Timer>
-          </span>
+          </div>
           <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
             includeSeconds: true,
           })} ago`}</span>
@@ -35,11 +35,13 @@ export default class Task extends Component {
     )
   }
 }
+
 Task.defaultProps = {
   onCompleted: () => {},
   onEdited: () => {},
   onDeleted: () => {},
   done: false,
+  title: 'Empty task',
   seconds: 59,
   minutes: 59,
 }
