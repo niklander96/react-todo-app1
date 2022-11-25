@@ -7,6 +7,10 @@ import Task from '../Task'
 export default class TaskList extends Component {
   state = {
     title: '',
+    // inter: this.props.inter,
+    // seconds: this.props.seconds,
+    // minutes: this.props.minutes,
+    // isStarted: false,
   }
 
   editTask = (e) => {
@@ -33,8 +37,10 @@ export default class TaskList extends Component {
     if (status === 'complete') {
       todos = todos.filter((el) => el.done)
     }
+
     return todos.map((el) => {
-      const { title, id, edit, done, dateCreate, date, seconds, minutes } = el
+      const { title, id, edit, done, dateCreate, date, seconds, minutes, inter, isStarted } = el
+      const { tick, getPause, getStart, timeLeft } = this.props
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -49,12 +55,18 @@ export default class TaskList extends Component {
             date={date}
             id={id}
             done={done}
+            tick={() => tick(id)}
+            timeLeft={() => timeLeft(id)}
+            inter={inter}
+            getStart={() => getStart(id)}
+            getPause={() => getPause(id)}
             seconds={seconds}
             minutes={minutes}
+            isStarted={isStarted}
             onDeleted={() => deleteItem(id)}
+            onStart={() => changeStatus(id, isStarted)}
             onCompleted={() => changeStatus(id, 'done')}
             onEdited={() => changeStatus(id, 'edit')}
-            todo={todos}
           />
           {edit ? (
             <form onSubmit={(e) => this.submitEdit(e, id, title)}>

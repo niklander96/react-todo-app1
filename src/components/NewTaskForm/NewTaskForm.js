@@ -28,13 +28,16 @@ export default class NewTaskForm extends Component {
   }
 
   onSubmit = (e) => {
+    const { minutes, seconds, title } = this.state
     e.preventDefault()
-    this.props.addItem(this.state.title, this.state.minutes, this.state.seconds)
-    this.setState({
-      title: '',
-      minutes: '',
-      seconds: '',
-    })
+    if (minutes !== '' && seconds !== '' && title !== '') {
+      this.props.addItem(this.state.title, this.state.minutes, this.state.seconds)
+      this.setState({
+        title: '',
+        minutes: '',
+        seconds: '',
+      })
+    }
   }
 
   render() {
@@ -42,16 +45,23 @@ export default class NewTaskForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className='new-todo-form'>
         <button type={'submit'}></button>
-        <input className='new-todo' placeholder='Task' autoFocus onChange={this.onTextChange} value={title} />
+        <input
+          className='new-todo'
+          placeholder='Task'
+          autoFocus
+          onChange={this.onTextChange}
+          value={title}
+          name='task'
+        />
         <input
           className='new-todo-form__timer'
           placeholder='Min'
           autoFocus
           type='number'
           min='0'
-          max='60'
           onChange={this.onMinChange}
           value={minutes}
+          name='minutes'
         />
         <input
           className='new-todo-form__timer'
@@ -62,6 +72,7 @@ export default class NewTaskForm extends Component {
           max='60'
           onChange={this.onSecChange}
           value={seconds}
+          name='seconds'
         />
       </form>
     )

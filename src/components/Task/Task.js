@@ -1,33 +1,46 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { formatDistanceToNow } from 'date-fns'
-
-import Timer from '../Timer'
 
 export default class Task extends Component {
-  timeLeft = () => {
-    const { dateCreate } = this.props
-    this.setState({
-      date: formatDistanceToNow(dateCreate, { includeSeconds: true }),
-    })
+  interval
+
+  componentDidMount() {
+    const { timeLeft } = this.props
+    setInterval(timeLeft, 5000)
+  }
+
+  componentDidUpdate() {
+    const { isStarted, tick } = this.props
+    clearInterval(this.interval)
+    if (isStarted) {
+      this.interval = setInterval(() => tick(), 1000)
+    } else {
+      clearInterval(this.interval)
+    }
+  }
+
+  componentWillUnmount() {
+    const { timeLeft } = this.props
+    clearInterval(setInterval(timeLeft, 5000))
+    clearInterval(this.interval)
   }
 
   render() {
-    const { onDeleted, onCompleted, done, onEdited, title, id, dateCreate, seconds, minutes } = this.props
-    setInterval(this.timeLeft, 5000)
+    const { onDeleted, onCompleted, done, onEdited, title, id, getStart, getPause, seconds, minutes, date } = this.props
+    const sec = seconds.toString().padStart(2, '0')
+    const min = minutes.toString().padStart(2, '0')
+
     return (
       <div className='view'>
         <input type='checkbox' className='toggle' onChange={onCompleted} checked={done} />
         <label htmlFor={id}>
           <span className='title'>{`${title}`}</span>
           <div className='description'>
-            <Timer seconds={seconds} minutes={minutes}>
-              {`${minutes}:${seconds}`}
-            </Timer>
+            <button className='icon icon-play' onClick={getStart}></button>
+            <button className='icon icon-pause' onClick={getPause}></button>
+            <div>{`${min}:${sec}`}</div>
           </div>
-          <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
-            includeSeconds: true,
-          })} ago`}</span>
+          <span className='description'>{`created ${date} ago`}</span>
         </label>
         <button className='icon icon-edit' onClick={onEdited}></button>
         <button className='icon icon-destroy' onClick={onDeleted}></button>
@@ -41,9 +54,6 @@ Task.defaultProps = {
   onEdited: () => {},
   onDeleted: () => {},
   done: false,
-  title: 'Empty task',
-  seconds: 59,
-  minutes: 59,
 }
 
 Task.propTypes = {

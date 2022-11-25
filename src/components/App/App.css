@@ -42,3 +42,9 @@
   z-index: 2;
   border-top: 1px solid #e6e6e6;
 }
+
+.button-test {
+  background: #af5b5e;
+  width: 15px;
+  height: 15px;
+}
