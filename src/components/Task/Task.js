@@ -2,33 +2,58 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 export default class Task extends Component {
-  interval
+  state = {
+    minutes: this.props.minutes,
+    seconds: this.props.seconds,
+    isStarted: this.props.isStarted,
+    timer: 0,
+  }
+
+  onStart = () => {
+    const { getStart } = this.props
+    const { timer } = this.state
+    clearInterval(timer)
+    const interval = setInterval(() => getStart(), 1000)
+    this.setState({
+      timer: interval,
+    })
+  }
+
+  onPause = () => {
+    const { timer } = this.state
+    clearInterval(timer)
+    this.setState({
+      timer: 0,
+    })
+  }
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   const {timer} = this.state
+  //   if (prevState.timer === timer) {
+  //     this.onPause()
+  //   }
+  // }
 
   componentDidMount() {
     const { timeLeft } = this.props
+    const { timer } = this.state
+    clearInterval(timer)
     setInterval(timeLeft, 5000)
-  }
-
-  componentDidUpdate() {
-    const { isStarted, tick } = this.props
-    clearInterval(this.interval)
-    if (isStarted) {
-      this.interval = setInterval(() => tick(), 1000)
-    } else {
-      clearInterval(this.interval)
-    }
+    clearInterval(timer)
   }
 
   componentWillUnmount() {
+    // const { timer } = this.state
+    // clearInterval(timer)
     const { timeLeft } = this.props
     clearInterval(setInterval(timeLeft, 5000))
-    clearInterval(this.interval)
   }
 
   render() {
-    const { onDeleted, onCompleted, done, onEdited, title, id, getStart, getPause, seconds, minutes, date } = this.props
+    const { onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, date } = this.props
     const sec = seconds.toString().padStart(2, '0')
     const min = minutes.toString().padStart(2, '0')
+    console.log(minutes, seconds)
 
     return (
       <div className='view'>
@@ -36,9 +61,11 @@ export default class Task extends Component {
         <label htmlFor={id}>
           <span className='title'>{`${title}`}</span>
           <div className='description'>
-            <button className='icon icon-play' onClick={getStart}></button>
-            <button className='icon icon-pause' onClick={getPause}></button>
-            <div>{`${min}:${sec}`}</div>
+            <button className='icon icon-play' onClick={this.onStart}></button>
+            <button className='icon icon-pause' onClick={this.onPause}></button>
+            <div>
+              {min}:{sec}
+            </div>
           </div>
           <span className='description'>{`created ${date} ago`}</span>
         </label>

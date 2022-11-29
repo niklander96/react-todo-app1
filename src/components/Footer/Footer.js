@@ -6,11 +6,28 @@ import TasksFilter from '../TaskFilter/TasksFilter'
 
 export default class Footer extends Component {
   render() {
-    const { toDo, clearCompleted, changeRenderStatus, renderStatus } = this.props
+    const {
+      toDo,
+      clearCompleted,
+      changeRenderStatus,
+      renderStatus,
+      allTasksFilter,
+      activeTasksFilter,
+      completedTasksFilter,
+      styleButFilter,
+    } = this.props
+
     return (
       <footer className='footer'>
         <span className='todo-count'>{`${toDo} items left`}</span>
-        <TasksFilter changeRenderStatus={changeRenderStatus} renderStatus={renderStatus} />
+        <TasksFilter
+          changeRenderStatus={changeRenderStatus}
+          renderStatus={renderStatus}
+          allTasksFilter={allTasksFilter}
+          activeTasksFilter={activeTasksFilter}
+          completedTasksFilter={completedTasksFilter}
+          styleButFilter={styleButFilter}
+        />
         <button className='clear-completed' onClick={clearCompleted}>
           Clear completed
         </button>

@@ -7,12 +7,14 @@ export default class TasksFilter extends Component {
     const { changeRenderStatus } = this.props
     changeRenderStatus(status)
   }
-
   render() {
     const { renderStatus } = this.props
     const btnAll = renderStatus === 'all' ? 'selected' : ''
     const btnActive = renderStatus === 'active' ? 'selected' : ''
     const btnComplete = renderStatus === 'complete' ? 'selected' : ''
+    // const btnAll = styleButFilter === 1 ? 'selected' : '';
+    // const btnActive = styleButFilter === 2 ? 'selected' : '';
+    // const btnComplete = styleButFilter === 3 ? 'selected' : '';
     return (
       <ul className='filters'>
         <li>

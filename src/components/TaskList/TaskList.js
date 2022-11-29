@@ -7,10 +7,6 @@ import Task from '../Task'
 export default class TaskList extends Component {
   state = {
     title: '',
-    // inter: this.props.inter,
-    // seconds: this.props.seconds,
-    // minutes: this.props.minutes,
-    // isStarted: false,
   }
 
   editTask = (e) => {
@@ -40,7 +36,7 @@ export default class TaskList extends Component {
 
     return todos.map((el) => {
       const { title, id, edit, done, dateCreate, date, seconds, minutes, inter, isStarted } = el
-      const { tick, getPause, getStart, timeLeft } = this.props
+      const { getPause, getStart, timeLeft } = this.props
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -55,7 +51,6 @@ export default class TaskList extends Component {
             date={date}
             id={id}
             done={done}
-            tick={() => tick(id)}
             timeLeft={() => timeLeft(id)}
             inter={inter}
             getStart={() => getStart(id)}

@@ -235,6 +235,10 @@
     margin-bottom: -1px;
 }
 
+.display-none {
+    display: none;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .toggle-all,
     .todo-list li .toggle {

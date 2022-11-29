@@ -11,11 +11,11 @@ export default class App extends Component {
   maxId = 0
 
   state = {
-    todos: [this.createTodoItem('Create first task', 59, 59)],
+    todos: [this.createTodoItem('Create first task', 30, 59)],
     renderStatus: 'all',
   }
 
-  createTodoItem(text, min, sec) {
+  createTodoItem(text, sec, min) {
     return {
       title: text,
       id: this.maxId++,
@@ -62,7 +62,7 @@ export default class App extends Component {
     })
   }
 
-  changeStatus = (id, statusFlag) =>
+  changeStatus = (id, statusFlag) => {
     this.setState(({ todos }) => ({
       todos: [...todos].map((el) => {
         if (el.id === id) {
@@ -71,6 +71,7 @@ export default class App extends Component {
         return el
       }),
     }))
+  }
 
   changeRenderStatus = (status) => {
     this.setState({
@@ -84,19 +85,12 @@ export default class App extends Component {
     }))
   }
 
-  tick = (id) => {
+  timeLeft = (id) => {
     this.setState(({ todos }) => {
       return {
         todos: todos.map((el) => {
           if (el.id === id) {
-            if (el.seconds > 0) {
-              el.seconds = el.seconds - 1
-            } else if (el.minutes > 0) {
-              el.minutes = el.minutes - 1
-              el.seconds = el.seconds + 59
-            } else if (Number(el.minutes) === 0 && Number(el.seconds) === 0) {
-              el.isStarted = false
-            }
+            el.date = formatDistanceToNow(el.dateCreate, { includeSeconds: true })
           }
           return el
         }),
@@ -110,6 +104,14 @@ export default class App extends Component {
         todos: todos.map((el) => {
           if (el.id === id) {
             el.isStarted = true
+            if (el.seconds > 0) {
+              el.seconds = el.seconds - 1
+            } else if (el.minutes > 0) {
+              el.minutes = el.minutes - 1
+              el.seconds = el.seconds + 59
+            } else if (Number(el.minutes) === 0 && Number(el.seconds) === 0) {
+              el.isStarted = false
+            }
           }
           return el
         }),
@@ -130,21 +132,48 @@ export default class App extends Component {
     })
   }
 
-  timeLeft = (id) => {
-    this.setState(({ todos }) => {
-      return {
-        todos: todos.map((el) => {
-          if (el.id === id) {
-            el.date = formatDistanceToNow(el.dateCreate, { includeSeconds: true })
-          }
-          return el
-        }),
-      }
-    })
-  }
+  // allTasksFilter = () => {
+  //   this.styleButFilter = 1;
+  //   this.setState(({ todos }) => {
+  //     const newArr = [...todos];
+  //     newArr.forEach((el) => {
+  //       el.show = false;
+  //     });
+  //
+  //     return { todos: newArr };
+  //   });
+  // };
+  //
+  // activeTasksFilter = () => {
+  //   this.allTasksFilter();
+  //   this.styleButFilter = 2;
+  //   this.setState(({ todos }) => {
+  //     const newArr = [...todos];
+  //     newArr.forEach((el) => {
+  //       if (el.done) {
+  //         el.show = true;
+  //       }
+  //     });
+  //     return { todos: newArr };
+  //   });
+  // };
+  //
+  // completedTasksFilter = () => {
+  //   this.allTasksFilter();
+  //   this.styleButFilter = 3;
+  //   this.setState(({ todos }) => {
+  //     const newArr = [...todos]
+  //     newArr.forEach((el) => {
+  //       if (!el.done) {
+  //         el.show = true;
+  //       }
+  //     });
+  //     return { todos: newArr };
+  //   });
+  // };
 
   render() {
-    const { todos, renderStatus, date, dateCreate, inter } = this.state
+    const { todos, renderStatus, date, dateCreate } = this.state
     let doneCount = todos.filter((el) => el.done).length
     let todoCount = todos.length - doneCount
 
@@ -158,12 +187,9 @@ export default class App extends Component {
           <TaskList
             todos={todos}
             date={date}
-            onStart={this.onStart}
             timeLeft={this.timeLeft}
-            inter={inter}
-            tick={this.tick}
-            getPause={this.getPause}
             getStart={this.getStart}
+            getPause={this.getPause}
             dateCreate={dateCreate}
             deleteItem={this.deleteItem}
             changeStatus={this.changeStatus}
@@ -173,7 +199,11 @@ export default class App extends Component {
           <Footer
             renderStatus={renderStatus}
             toDo={todoCount}
+            // activeTasksFilter={this.activeTasksFilter}
+            // allTasksFilter={this.allTasksFilter}
+            // completedTasksFilter={this.completedTasksFilter}
             clearCompleted={this.clearCompleted}
+            styleButFilter={this.styleButFilter}
             changeRenderStatus={this.changeRenderStatus}
           />
         </section>
