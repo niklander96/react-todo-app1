@@ -2,50 +2,39 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 export default class Task extends Component {
+  interval
   state = {
-    minutes: this.props.minutes,
-    seconds: this.props.seconds,
     isStarted: this.props.isStarted,
-    timer: 0,
   }
 
   onStart = () => {
     const { getStart } = this.props
-    const { timer } = this.state
-    clearInterval(timer)
-    const interval = setInterval(() => getStart(), 1000)
-    this.setState({
-      timer: interval,
-    })
+    clearInterval(this.interval)
+    this.interval = setInterval(getStart, 1000)
   }
 
   onPause = () => {
-    const { timer } = this.state
-    clearInterval(timer)
-    this.setState({
-      timer: 0,
-    })
+    const { getPause } = this.props
+    getPause()
+    clearInterval(this.interval)
   }
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const {timer} = this.state
-  //   if (prevState.timer === timer) {
-  //     this.onPause()
-  //   }
-  // }
-
   componentDidMount() {
+    const { getStart } = this.props
+    this.interval = setInterval(getStart, 1000)
     const { timeLeft } = this.props
-    const { timer } = this.state
-    clearInterval(timer)
     setInterval(timeLeft, 5000)
-    clearInterval(timer)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.getPause === prevProps.getPause) {
+      clearInterval(this.interval)
+    }
   }
 
   componentWillUnmount() {
-    // const { timer } = this.state
-    // clearInterval(timer)
     const { timeLeft } = this.props
+    clearInterval(this.interval)
     clearInterval(setInterval(timeLeft, 5000))
   }
 
@@ -53,7 +42,6 @@ export default class Task extends Component {
     const { onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, date } = this.props
     const sec = seconds.toString().padStart(2, '0')
     const min = minutes.toString().padStart(2, '0')
-    console.log(minutes, seconds)
 
     return (
       <div className='view'>
@@ -63,9 +51,7 @@ export default class Task extends Component {
           <div className='description'>
             <button className='icon icon-play' onClick={this.onStart}></button>
             <button className='icon icon-pause' onClick={this.onPause}></button>
-            <div>
-              {min}:{sec}
-            </div>
+            <div>{`${min}:${sec}`}</div>
           </div>
           <span className='description'>{`created ${date} ago`}</span>
         </label>

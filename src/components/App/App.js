@@ -15,7 +15,7 @@ export default class App extends Component {
     renderStatus: 'all',
   }
 
-  createTodoItem(text, sec, min) {
+  createTodoItem(text, min, sec) {
     return {
       title: text,
       id: this.maxId++,
@@ -23,7 +23,7 @@ export default class App extends Component {
       done: false,
       dateCreate: new Date(),
       date: 'less then 5 seconds',
-      isStarted: true,
+      isStarted: false,
       seconds: sec,
       minutes: min,
     }
@@ -99,6 +99,7 @@ export default class App extends Component {
   }
 
   getStart = (id) => {
+    clearInterval(setInterval(this.getStart, 1000))
     this.setState(({ todos }) => {
       return {
         todos: todos.map((el) => {
@@ -120,11 +121,12 @@ export default class App extends Component {
   }
 
   getPause = (id) => {
+    clearInterval(setInterval(this.getStart, 1000))
     this.setState(({ todos }) => {
       return {
         todos: todos.map((el) => {
           if (el.id === id) {
-            el.isStarted = false
+            el.isStarted = !el.isStarted
           }
           return el
         }),
@@ -132,51 +134,10 @@ export default class App extends Component {
     })
   }
 
-  // allTasksFilter = () => {
-  //   this.styleButFilter = 1;
-  //   this.setState(({ todos }) => {
-  //     const newArr = [...todos];
-  //     newArr.forEach((el) => {
-  //       el.show = false;
-  //     });
-  //
-  //     return { todos: newArr };
-  //   });
-  // };
-  //
-  // activeTasksFilter = () => {
-  //   this.allTasksFilter();
-  //   this.styleButFilter = 2;
-  //   this.setState(({ todos }) => {
-  //     const newArr = [...todos];
-  //     newArr.forEach((el) => {
-  //       if (el.done) {
-  //         el.show = true;
-  //       }
-  //     });
-  //     return { todos: newArr };
-  //   });
-  // };
-  //
-  // completedTasksFilter = () => {
-  //   this.allTasksFilter();
-  //   this.styleButFilter = 3;
-  //   this.setState(({ todos }) => {
-  //     const newArr = [...todos]
-  //     newArr.forEach((el) => {
-  //       if (!el.done) {
-  //         el.show = true;
-  //       }
-  //     });
-  //     return { todos: newArr };
-  //   });
-  // };
-
   render() {
     const { todos, renderStatus, date, dateCreate } = this.state
     let doneCount = todos.filter((el) => el.done).length
     let todoCount = todos.length - doneCount
-
     return (
       <section className='todoapp'>
         <header className='header'>
@@ -199,11 +160,7 @@ export default class App extends Component {
           <Footer
             renderStatus={renderStatus}
             toDo={todoCount}
-            // activeTasksFilter={this.activeTasksFilter}
-            // allTasksFilter={this.allTasksFilter}
-            // completedTasksFilter={this.completedTasksFilter}
             clearCompleted={this.clearCompleted}
-            styleButFilter={this.styleButFilter}
             changeRenderStatus={this.changeRenderStatus}
           />
         </section>

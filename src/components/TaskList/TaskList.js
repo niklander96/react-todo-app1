@@ -36,7 +36,7 @@ export default class TaskList extends Component {
 
     return todos.map((el) => {
       const { title, id, edit, done, dateCreate, date, seconds, minutes, inter, isStarted } = el
-      const { getPause, getStart, timeLeft } = this.props
+      const { timeLeft, getPause, getStart } = this.props
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -59,7 +59,6 @@ export default class TaskList extends Component {
             minutes={minutes}
             isStarted={isStarted}
             onDeleted={() => deleteItem(id)}
-            onStart={() => changeStatus(id, isStarted)}
             onCompleted={() => changeStatus(id, 'done')}
             onEdited={() => changeStatus(id, 'edit')}
           />
