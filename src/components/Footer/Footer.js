@@ -1,21 +1,18 @@
 import './Footer.css'
-import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import TasksFilter from '../TaskFilter/TasksFilter'
 
-export default class Footer extends Component {
-  render() {
-    const {
-      toDo,
-      clearCompleted,
-      changeRenderStatus,
-      renderStatus,
-      allTasksFilter,
-      activeTasksFilter,
-      completedTasksFilter,
-      styleButFilter,
-    } = this.props
+const Footer =({
+                 toDo,
+                 clearCompleted,
+                 changeRenderStatus,
+                 renderStatus,
+                 allTasksFilter,
+                 activeTasksFilter,
+                 completedTasksFilter,
+                 styleButFilter,
+               }) => {
 
     return (
       <footer className='footer'>
@@ -33,7 +30,7 @@ export default class Footer extends Component {
         </button>
       </footer>
     )
-  }
+
 }
 
 Footer.defaultProps = {
@@ -47,3 +44,5 @@ Footer.propTypes = {
   changeRenderStatus: PropTypes.func,
   clearCompleted: PropTypes.func,
 }
+
+export default Footer

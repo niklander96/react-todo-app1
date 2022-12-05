@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, {useEffect, useLayoutEffect} from 'react'
+import {formatDistanceToNow} from "date-fns";
 
-const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, date, getStart, getPause, isStarted, timeLeft }) => {
+const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, dateCreate, getStart, getPause, isStarted, timeLeft }) => {
   let interval
   let timer
   // state = {
@@ -16,22 +17,28 @@ const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minu
   }
 
   const onPause = () => {
-    clearInterval(interval)
     getPause()
-
+    clearInterval(interval)
   }
-  // useEffect(() => {
-  //   timer = setInterval( timeLeft(), 5000)
-  //   return () => clearInterval(timer)
-  // })
 
   useEffect(() => {
-  interval = setInterval(() => isStarted && getStart(), 1000);
+    timer = setInterval( timeLeft, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+  interval = setInterval(getStart, 1000)
   return () => clearInterval(interval)
   }, [isStarted])
 
+  // useEffect(() => {
+  //   return ()=> {
+  //     clearInterval(interval)
+  //     clearInterval(timer)
+  //   }
+  // }, [])
 
-
+  console.log(isStarted)
   // componentDidMount() {
   //   const { getStart } = this.props
   //   this.interval = setInterval(getStart, 1000)
@@ -62,11 +69,11 @@ const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minu
         <label htmlFor={id}>
           <span className='title'>{`${title}`}</span>
           <div className='description'>
-            <button className='icon icon-play' onClick={() => onStart()}></button>
-            <button className='icon icon-pause' onClick={()=> onPause()}></button>
+            <button className='icon icon-play' onClick={onStart}></button>
+            <button className='icon icon-pause' onClick={onPause}></button>
             <div>{`${minutes}:${seconds}`}</div>
           </div>
-          <span className='description'>{`created ${date} ago`}</span>
+          <span className='description'>{`created ${formatDistanceToNow(dateCreate, {includeSeconds: true})} ago`}</span>
         </label>
         <button className='icon icon-edit' onClick={() => onEdited()}></button>
         <button className='icon icon-destroy' onClick={() => onDeleted()}></button>
@@ -74,7 +81,6 @@ const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minu
     )
   // }
 }
-export default Task
 
 Task.defaultProps = {
   onCompleted: () => {},
@@ -90,3 +96,5 @@ Task.propTypes = {
   done: PropTypes.bool,
   title: PropTypes.string,
 }
+
+export default Task

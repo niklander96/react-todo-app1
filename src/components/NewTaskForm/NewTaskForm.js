@@ -1,53 +1,40 @@
-import { Component } from 'react'
+import {Component, useState} from 'react'
 import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
-export default class NewTaskForm extends Component {
-  state = {
-    title: '',
-    seconds: '',
-    minutes: '',
+const NewTaskForm = ({addItem}) => {
+  const [title, setTitle] = useState('')
+  const [seconds, setSeconds] = useState('')
+  const [minutes, setMinutes] = useState('')
+
+  const onSecChange = (e) => {
+    setSeconds(e.target.value)
   }
 
-  onSecChange = (e) => {
-    this.setState({
-      seconds: e.target.value,
-    })
+ const onMinChange = (e) => {
+    setMinutes(e.target.value)
   }
 
-  onMinChange = (e) => {
-    this.setState({
-      minutes: e.target.value,
-    })
+ const onTextChange = (e) => {
+    setTitle(e.target.value)
   }
 
-  onTextChange = (e) => {
-    this.setState({
-      title: e.target.value,
-    })
-  }
-
-  onSubmit = (e) => {
-    const { minutes, seconds, title } = this.state
+ const onSubmit = (e) => {
     e.preventDefault()
-    this.props.addItem(title, minutes, seconds)
-    this.setState({
-      title: '',
-      minutes: '',
-      seconds: '',
-    })
+        addItem(title, minutes, seconds)
+    setTitle('')
+   setMinutes('')
+   setSeconds('')
   }
 
-  render() {
-    const { title, minutes, seconds } = this.state
     return (
-      <form onSubmit={this.onSubmit} className='new-todo-form'>
+      <form onSubmit={onSubmit} className='new-todo-form'>
         <button type={'submit'}></button>
         <input
           className='new-todo'
           placeholder='Task'
           autoFocus
-          onChange={this.onTextChange}
+          onChange={onTextChange}
           value={title}
           name='task'
           required
@@ -58,7 +45,7 @@ export default class NewTaskForm extends Component {
           autoFocus
           type='number'
           min='0'
-          onChange={this.onMinChange}
+          onChange={onMinChange}
           value={minutes}
           name='minutes'
           required
@@ -70,14 +57,14 @@ export default class NewTaskForm extends Component {
           type='number'
           min='0'
           max='60'
-          onChange={this.onSecChange}
+          onChange={onSecChange}
           value={seconds}
           name='seconds'
           required
         />
       </form>
     )
-  }
+
 }
 NewTaskForm.defaultProps = {
   addItem: () => {},
@@ -89,3 +76,5 @@ NewTaskForm.propTypes = {
   seconds: PropTypes.number,
   minutes: PropTypes.number,
 }
+
+export default NewTaskForm

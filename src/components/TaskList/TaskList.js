@@ -1,32 +1,24 @@
 import PropTypes from 'prop-types'
 import './TaskList.css'
-import { Component } from 'react'
+import {useState} from 'react'
 
 import Task from '../Task'
 
-export default class TaskList extends Component {
-  state = {
-    title: '',
+const TaskList = ({timeLeft, getPause, getStart, deleteItem, changeStatus, todos, renderStatus, editItem }) => {
+ const [title, setTitle] = useState('')
+
+ const editTask = (e) => {
+    setTitle(e.target.value)
   }
 
-  editTask = (e) => {
-    this.setState({
-      title: e.target.value,
-    })
-  }
-
-  submitEdit = (e, id, newTitle) => {
-    const { editItem } = this.props
-    const { title } = this.state
+ const submitEdit = (e, id, newTitle) => {
     e.preventDefault()
     editItem(id, title === '' ? newTitle : title)
-    this.setState({
-      title: '',
-    })
+    setTitle('')
   }
 
-  elements = (todos, status) => {
-    const { deleteItem, changeStatus } = this.props
+ const elements = (todos, status) => {
+
     if (status === 'active') {
       todos = todos.filter((el) => !el.done)
     }
@@ -36,7 +28,6 @@ export default class TaskList extends Component {
 
     return todos.map((el) => {
       const { title, id, edit, done, dateCreate, date, seconds, minutes, inter, isStarted } = el
-      const { timeLeft, getPause, getStart } = this.props
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -63,8 +54,8 @@ export default class TaskList extends Component {
             onEdited={() => changeStatus(id, 'edit')}
           />
           {edit ? (
-            <form onSubmit={(e) => this.submitEdit(e, id, title)}>
-              <input type='text' className='edit' autoFocus onChange={this.editTask} defaultValue={title} />
+            <form onSubmit={(e) => submitEdit(e, id, title)}>
+              <input type='text' className='edit' autoFocus onChange={editTask} defaultValue={title} />
             </form>
           ) : null}
         </li>
@@ -72,11 +63,9 @@ export default class TaskList extends Component {
     })
   }
 
-  render() {
-    const { todos, renderStatus } = this.props
-    const itemsToDo = this.elements(todos, renderStatus)
+    const itemsToDo = elements(todos, renderStatus)
     return <ul className='todo-list'>{itemsToDo}</ul>
-  }
+
 }
 
 TaskList.defaultProps = {
@@ -96,3 +85,4 @@ TaskList.propTypes = {
     }),
   ).isRequired,
 }
+ export default TaskList
