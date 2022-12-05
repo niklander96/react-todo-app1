@@ -1,8 +1,22 @@
 import PropTypes from 'prop-types'
-import React, {useEffect, useLayoutEffect} from 'react'
-import {formatDistanceToNow} from "date-fns";
+import React, { useEffect } from 'react'
+import { formatDistanceToNow } from 'date-fns'
 
-const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, dateCreate, getStart, getPause, isStarted, timeLeft }) => {
+const Task = ({
+  onDeleted,
+  onCompleted,
+  done,
+  onEdited,
+  title,
+  id,
+  seconds,
+  minutes,
+  dateCreate,
+  getStart,
+  getPause,
+  isStarted,
+  timeLeft,
+}) => {
   let interval
   let timer
   // state = {
@@ -22,13 +36,13 @@ const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minu
   }
 
   useEffect(() => {
-    timer = setInterval( timeLeft, 5000)
+    timer = setInterval(timeLeft, 5000)
     return () => clearInterval(timer)
   }, [])
 
   useEffect(() => {
-  interval = setInterval(getStart, 1000)
-  return () => clearInterval(interval)
+    interval = setInterval(getStart, 1000)
+    return () => clearInterval(interval)
   }, [isStarted])
 
   // useEffect(() => {
@@ -63,22 +77,24 @@ const Task = ({ onDeleted, onCompleted, done, onEdited, title, id, seconds, minu
   //   const sec = seconds.toString().padStart(2, '0')
   //   const min = minutes.toString().padStart(2, '0')
 
-    return (
-      <div className='view'>
-        <input type='checkbox' className='toggle' onChange={() => onCompleted()} checked={done} />
-        <label htmlFor={id}>
-          <span className='title'>{`${title}`}</span>
-          <div className='description'>
-            <button className='icon icon-play' onClick={onStart}></button>
-            <button className='icon icon-pause' onClick={onPause}></button>
-            <div>{`${minutes}:${seconds}`}</div>
-          </div>
-          <span className='description'>{`created ${formatDistanceToNow(dateCreate, {includeSeconds: true})} ago`}</span>
-        </label>
-        <button className='icon icon-edit' onClick={() => onEdited()}></button>
-        <button className='icon icon-destroy' onClick={() => onDeleted()}></button>
-      </div>
-    )
+  return (
+    <div className='view'>
+      <input type='checkbox' className='toggle' onChange={() => onCompleted()} checked={done} />
+      <label htmlFor={id}>
+        <span className='title'>{`${title}`}</span>
+        <div className='description'>
+          <button className='icon icon-play' onClick={onStart}></button>
+          <button className='icon icon-pause' onClick={onPause}></button>
+          <div>{`${minutes}:${seconds}`}</div>
+        </div>
+        <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
+          includeSeconds: true,
+        })} ago`}</span>
+      </label>
+      <button className='icon icon-edit' onClick={() => onEdited()}></button>
+      <button className='icon icon-destroy' onClick={() => onDeleted()}></button>
+    </div>
+  )
   // }
 }
 

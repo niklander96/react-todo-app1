@@ -3,34 +3,32 @@ import PropTypes from 'prop-types'
 
 import TasksFilter from '../TaskFilter/TasksFilter'
 
-const Footer =({
-                 toDo,
-                 clearCompleted,
-                 changeRenderStatus,
-                 renderStatus,
-                 allTasksFilter,
-                 activeTasksFilter,
-                 completedTasksFilter,
-                 styleButFilter,
-               }) => {
-
-    return (
-      <footer className='footer'>
-        <span className='todo-count'>{`${toDo} items left`}</span>
-        <TasksFilter
-          changeRenderStatus={changeRenderStatus}
-          renderStatus={renderStatus}
-          allTasksFilter={allTasksFilter}
-          activeTasksFilter={activeTasksFilter}
-          completedTasksFilter={completedTasksFilter}
-          styleButFilter={styleButFilter}
-        />
-        <button className='clear-completed' onClick={clearCompleted}>
-          Clear completed
-        </button>
-      </footer>
-    )
-
+const Footer = ({
+  toDo,
+  clearCompleted,
+  changeRenderStatus,
+  renderStatus,
+  allTasksFilter,
+  activeTasksFilter,
+  completedTasksFilter,
+  styleButFilter,
+}) => {
+  return (
+    <footer className='footer'>
+      <span className='todo-count'>{`${toDo} items left`}</span>
+      <TasksFilter
+        changeRenderStatus={changeRenderStatus}
+        renderStatus={renderStatus}
+        allTasksFilter={allTasksFilter}
+        activeTasksFilter={activeTasksFilter}
+        completedTasksFilter={completedTasksFilter}
+        styleButFilter={styleButFilter}
+      />
+      <button className='clear-completed' onClick={clearCompleted}>
+        Clear completed
+      </button>
+    </footer>
+  )
 }
 
 Footer.defaultProps = {

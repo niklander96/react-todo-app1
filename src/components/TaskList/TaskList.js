@@ -1,24 +1,23 @@
 import PropTypes from 'prop-types'
 import './TaskList.css'
-import {useState} from 'react'
+import { useState } from 'react'
 
 import Task from '../Task'
 
-const TaskList = ({timeLeft, getPause, getStart, deleteItem, changeStatus, todos, renderStatus, editItem }) => {
- const [title, setTitle] = useState('')
+const TaskList = ({ timeLeft, getPause, getStart, deleteItem, changeStatus, todos, renderStatus, editItem }) => {
+  const [title, setTitle] = useState('')
 
- const editTask = (e) => {
+  const editTask = (e) => {
     setTitle(e.target.value)
   }
 
- const submitEdit = (e, id, newTitle) => {
+  const submitEdit = (e, id, newTitle) => {
     e.preventDefault()
     editItem(id, title === '' ? newTitle : title)
     setTitle('')
   }
 
- const elements = (todos, status) => {
-
+  const elements = (todos, status) => {
     if (status === 'active') {
       todos = todos.filter((el) => !el.done)
     }
@@ -63,9 +62,8 @@ const TaskList = ({timeLeft, getPause, getStart, deleteItem, changeStatus, todos
     })
   }
 
-    const itemsToDo = elements(todos, renderStatus)
-    return <ul className='todo-list'>{itemsToDo}</ul>
-
+  const itemsToDo = elements(todos, renderStatus)
+  return <ul className='todo-list'>{itemsToDo}</ul>
 }
 
 TaskList.defaultProps = {
@@ -85,4 +83,4 @@ TaskList.propTypes = {
     }),
   ).isRequired,
 }
- export default TaskList
+export default TaskList
