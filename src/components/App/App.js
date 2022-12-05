@@ -80,7 +80,7 @@ const App = () => {
   }
 
   const getStart = (id) => {
-    clearInterval(setInterval(getStart, 1000))
+    // clearInterval(setInterval(getStart, 1000))
     setTodos(
       todos.map((el) => {
         if (el.id === id) {
@@ -95,19 +95,19 @@ const App = () => {
           }
         }
         return el
-      })
+      }),
     )
   }
 
   const getPause = (id) => {
-    clearInterval(setInterval(getStart, 1000))
+    // clearInterval(setInterval(getStart, 1000))
     setTodos(
       todos.map((el) => {
         if (el.id === id) {
           el.isStarted = !el.isStarted
         }
         return el
-      })
+      }),
     )
   }
 
