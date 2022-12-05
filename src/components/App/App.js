@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
 import NewTaskForm from '../NewTaskForm'
@@ -8,11 +8,11 @@ import TaskList from '../TaskList'
 import './App.css'
 
 const App = () => {
-  let maxId = 0
+  const maxId = useRef(0)
   const createTodoItem = (text, min, sec) => {
     return {
       title: text,
-      id: maxId++,
+      id: maxId.current++,
       edit: false,
       done: false,
       dateCreate: new Date(),
@@ -95,7 +95,7 @@ const App = () => {
           }
         }
         return el
-      }),
+      })
     )
   }
 
@@ -107,11 +107,10 @@ const App = () => {
           el.isStarted = !el.isStarted
         }
         return el
-      }),
+      })
     )
   }
 
-  // const { todos, renderStatus, date, dateCreate } = this.state
   let doneCount = todos.filter((el) => el.done).length
   let todoCount = todos.length - doneCount
   return (

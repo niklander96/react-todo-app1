@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
 const Task = ({
@@ -13,46 +13,39 @@ const Task = ({
   minutes,
   dateCreate,
   getStart,
-  getPause,
   isStarted,
+    date,
+  getPause,
   timeLeft,
 }) => {
-  let interval
-  let timer
-  // state = {
-  //   isStarted: this.props.isStarted,
-  // }
 
-  // const [isStarted, setIsStarted] = useState('false')
+
+  const [inter, setInter] = useState()
+
+  const [isCounting, setIsCounting] = useState(isStarted)
 
   const onStart = () => {
-    clearInterval(interval)
-    interval = setInterval(getStart, 1000)
+   setIsCounting(true)
   }
 
+  const getPadTime = (time) => time.toString().padStart(2, '0')
+
   const onPause = () => {
-    getPause()
-    clearInterval(interval)
+    setIsCounting(false)
   }
 
   useEffect(() => {
-    timer = setInterval(timeLeft, 5000)
+    const timer = setInterval(timeLeft, 5000)
     return () => clearInterval(timer)
   }, [])
 
   useEffect(() => {
-    interval = setInterval(getStart, 1000)
+    const interval = setInterval(() => {
+     isCounting && getStart()
+      console.log(date)
+    }, 1000)
     return () => clearInterval(interval)
-  }, [isStarted])
-
-  // useEffect(() => {
-  //   return ()=> {
-  //     clearInterval(interval)
-  //     clearInterval(timer)
-  //   }
-  // }, [])
-
-  console.log(isStarted)
+      }, [isCounting])
   // componentDidMount() {
   //   const { getStart } = this.props
   //   this.interval = setInterval(getStart, 1000)
@@ -74,8 +67,8 @@ const Task = ({
 
   // render() {
   //   const { onDeleted, onCompleted, done, onEdited, title, id, seconds, minutes, date } = this.props
-  //   const sec = seconds.toString().padStart(2, '0')
-  //   const min = minutes.toString().padStart(2, '0')
+    const sec = getPadTime(seconds)
+    const min = getPadTime(minutes)
 
   return (
     <div className='view'>
@@ -85,11 +78,11 @@ const Task = ({
         <div className='description'>
           <button className='icon icon-play' onClick={onStart}></button>
           <button className='icon icon-pause' onClick={onPause}></button>
-          <div>{`${minutes}:${seconds}`}</div>
+          <div>{`${min}:${sec}`}</div>
         </div>
-        <span className='description'>{`created ${formatDistanceToNow(dateCreate, {
+        <span className='description'>{`created ${(formatDistanceToNow(dateCreate, {
           includeSeconds: true,
-        })} ago`}</span>
+        }))} ago`}</span>
       </label>
       <button className='icon icon-edit' onClick={() => onEdited()}></button>
       <button className='icon icon-destroy' onClick={() => onDeleted()}></button>
