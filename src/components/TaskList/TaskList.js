@@ -52,11 +52,11 @@ const TaskList = ({ timeLeft, getPause, getStart, deleteItem, changeStatus, todo
             onCompleted={() => changeStatus(id, 'done')}
             onEdited={() => changeStatus(id, 'edit')}
           />
-          {edit ? (
+          {edit && (
             <form onSubmit={(e) => submitEdit(e, id, title)}>
               <input type='text' className='edit' autoFocus onChange={editTask} defaultValue={title} />
             </form>
-          ) : null}
+          )}
         </li>
       )
     })

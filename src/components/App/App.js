@@ -80,9 +80,8 @@ const App = () => {
   }
 
   const getStart = (id) => {
-    // clearInterval(setInterval(getStart, 1000))
-    setTodos(
-      todos.map((el) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((el) => {
         if (el.id === id) {
           el.isStarted = true
           if (el.seconds > 0) {
@@ -100,7 +99,6 @@ const App = () => {
   }
 
   const getPause = (id) => {
-    // clearInterval(setInterval(getStart, 1000))
     setTodos(
       todos.map((el) => {
         if (el.id === id) {

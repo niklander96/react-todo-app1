@@ -16,7 +16,6 @@ const Task = ({
   isStarted,
   timeLeft,
 }) => {
-
   let interval
 
   const [isCounting, setIsCounting] = useState(isStarted)
@@ -37,7 +36,7 @@ const Task = ({
   })
 
   useEffect(() => {
-    clearInterval(interval)
+    console.log('render')
     interval = setInterval(() => {
       isCounting && getStart()
     }, 1000)
