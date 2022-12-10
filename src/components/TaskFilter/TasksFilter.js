@@ -2,7 +2,7 @@ import './TaskFilter.css'
 import PropTypes from 'prop-types'
 
 const TasksFilter = ({ changeRenderStatus, renderStatus }) => {
-  const filterTasks = (e, status) => {
+  const filterTasks = (status) => {
     changeRenderStatus(status)
   }
 
@@ -12,17 +12,17 @@ const TasksFilter = ({ changeRenderStatus, renderStatus }) => {
   return (
     <ul className='filters'>
       <li>
-        <button onClick={(e) => filterTasks(e, 'all')} className={btnAll}>
+        <button onClick={() => filterTasks('all')} className={btnAll}>
           All
         </button>
       </li>
       <li>
-        <button onClick={(e) => filterTasks(e, 'active')} className={btnActive}>
+        <button onClick={() => filterTasks('active')} className={btnActive}>
           Active
         </button>
       </li>
       <li>
-        <button onClick={(e) => filterTasks(e, 'complete')} className={btnComplete}>
+        <button onClick={() => filterTasks('complete')} className={btnComplete}>
           Completed
         </button>
       </li>

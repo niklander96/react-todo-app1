@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import Task from '../Task'
 
-const TaskList = ({ timeLeft, getPause, getStart, deleteItem, changeStatus, todos, renderStatus, editItem }) => {
+const TaskList = ({ timeLeft, deleteItem, changeStatus, todos, renderStatus, editItem, onSaveTime }) => {
   const [title, setTitle] = useState('')
 
   const editTask = (e) => {
@@ -26,7 +26,7 @@ const TaskList = ({ timeLeft, getPause, getStart, deleteItem, changeStatus, todo
     }
 
     return todos.map((el) => {
-      const { title, id, edit, done, dateCreate, date, seconds, minutes, inter, isStarted } = el
+      const { title, id, edit, done, dateCreate, date, seconds, minutes, isStarted } = el
       let classChange = ''
       if (edit) {
         classChange = 'editing'
@@ -42,9 +42,7 @@ const TaskList = ({ timeLeft, getPause, getStart, deleteItem, changeStatus, todo
             id={id}
             done={done}
             timeLeft={() => timeLeft(id)}
-            inter={inter}
-            getStart={() => getStart(id)}
-            getPause={() => getPause(id)}
+            onSaveTime={onSaveTime}
             seconds={seconds}
             minutes={minutes}
             isStarted={isStarted}

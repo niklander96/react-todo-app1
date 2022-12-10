@@ -12,22 +12,39 @@ const Task = ({
   seconds,
   minutes,
   dateCreate,
-  getStart,
   isStarted,
   timeLeft,
+  onSaveTime,
 }) => {
   let interval
-
+  let [minute, setMinute] = useState(minutes)
+  let [second, setSecond] = useState(seconds)
   const [isCounting, setIsCounting] = useState(isStarted)
 
   const onStart = () => {
     setIsCounting(true)
   }
 
+  const getStart = () => {
+    if (second > 0) {
+      setSecond((second = second - 1))
+    } else if (minute > 0) {
+      setMinute((minute = minute - 1))
+      setSecond((second = second + 59))
+    } else if (Number(minute) === 0 && Number(second) === 0) {
+      setIsCounting(false)
+    }
+  }
+
   const getPadTime = (time) => time.toString().padStart(2, '0')
 
   const onPause = () => {
+    saveTime()
     setIsCounting(false)
+  }
+
+  const saveTime = () => {
+    onSaveTime(id, minute, second)
   }
 
   useEffect(() => {
@@ -36,15 +53,14 @@ const Task = ({
   })
 
   useEffect(() => {
-    console.log('render')
     interval = setInterval(() => {
       isCounting && getStart()
     }, 1000)
     return () => clearInterval(interval)
   }, [isCounting])
 
-  const sec = getPadTime(seconds)
-  const min = getPadTime(minutes)
+  const sec = getPadTime(second)
+  const min = getPadTime(minute)
 
   return (
     <div className='view'>

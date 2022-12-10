@@ -28,12 +28,12 @@ const App = () => {
 
   const deleteItem = (id) => {
     const idx = todos.findIndex((el) => el.id === id)
-    setTodos([...todos.slice(0, idx), ...todos.slice(idx + 1)])
+    setTodos((prevTodos) => [...prevTodos.slice(0, idx), ...todos.slice(idx + 1)])
   }
 
   const editItem = (id, title) => {
-    setTodos(
-      todos.map((el) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((el) => {
         const newEl = { ...el }
         if (newEl.id === id) {
           newEl.edit = false
@@ -46,12 +46,12 @@ const App = () => {
 
   const addItem = (text, min, sec) => {
     const newItem = createTodoItem(text, min, sec)
-    setTodos([...todos, newItem])
+    setTodos((prevTodos) => [...prevTodos, newItem])
   }
 
   const changeStatus = (id, statusFlag) => {
-    setTodos(
-      [...todos].map((el) => {
+    setTodos((prevTodos) =>
+      [...prevTodos].map((el) => {
         if (el.id === id) {
           el[statusFlag] = !el[statusFlag]
         }
@@ -65,12 +65,12 @@ const App = () => {
   }
 
   const clearCompleted = () => {
-    this.setState(todos.filter((el) => !el.done))
+    this.setState((prevTodos) => prevTodos.filter((el) => !el.done))
   }
 
   const timeLeft = (id) => {
-    setTodos(
-      todos.map((el) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((el) => {
         if (el.id === id) {
           el.date = formatDistanceToNow(el.dateCreate, { includeSeconds: true })
         }
@@ -79,30 +79,12 @@ const App = () => {
     )
   }
 
-  const getStart = (id) => {
+  const onSaveTime = (id, min, sec) => {
     setTodos((prevTodos) =>
       prevTodos.map((el) => {
         if (el.id === id) {
-          el.isStarted = true
-          if (el.seconds > 0) {
-            el.seconds = el.seconds - 1
-          } else if (el.minutes > 0) {
-            el.minutes = el.minutes - 1
-            el.seconds = el.seconds + 59
-          } else if (Number(el.minutes) === 0 && Number(el.seconds) === 0) {
-            el.isStarted = false
-          }
-        }
-        return el
-      }),
-    )
-  }
-
-  const getPause = (id) => {
-    setTodos(
-      todos.map((el) => {
-        if (el.id === id) {
-          el.isStarted = !el.isStarted
+          el.minutes = min
+          el.seconds = sec
         }
         return el
       }),
@@ -121,8 +103,7 @@ const App = () => {
         <TaskList
           todos={todos}
           timeLeft={timeLeft}
-          getStart={getStart}
-          getPause={getPause}
+          onSaveTime={onSaveTime}
           deleteItem={deleteItem}
           changeStatus={changeStatus}
           editItem={editItem}
